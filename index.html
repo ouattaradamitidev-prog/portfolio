@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio de Ouattara Damiti Elie Eric (DAMEL) — Développeur web front-end à Abidjan. Je conçois des interfaces qui font gagner du temps aux utilisateurs et de la crédibilité aux entreprises.">
+<meta name="keywords" content="développeur web, front-end, stage, Abidjan, HTML, CSS, JavaScript, React, portfolio, Damiti Dev">
+<meta name="author" content="Ouattara Damiti Elie Lindaye Eric">
+<meta name="theme-color" content="#0A0A0C">
+<meta property="og:title" content="DAMEL — Développeur Web Front-end">
+<meta property="og:description" content="Je conçois des interfaces qui font gagner du temps aux utilisateurs et de la crédibilité aux entreprises.">
+<meta property="og:type" content="website">
+<title>DAMEL — Développeur Web Front-end | Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="./image/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
+<link rel="stylesheet" href="vendor/lenis.css">
+<link rel="stylesheet" href="style.css">
+
+<!-- Librairies d'animation hébergées localement : les animations fonctionnent
+     même hors-ligne ou si un bloqueur de pub/réseau bloque les CDN externes. -->
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+
+</head>
+<body>
+
+<!-- ══════════════════════ NAV ══════════════════════ -->
+<header class="nav" id="siteNav">
+  <div class="nav-inner" id="navInner">
+    <a href="#accueil" class="nav-logo">
+      <span class="nav-logo-icon"><i class="ph ph-compass"></i></span>
+      PORTFOLIO<span>.</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#accueil">Accueil</a>
+      <a href="#portfolio">Projets</a>
+      <a href="#services">Services</a>
+      <a href="#apropos">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#contact" class="btn btn-primary btn-sm">Me contacter</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu"><i class="ph ph-list"></i></button>
+    </div>
+  </div>
+  <div class="nav-collapsed-icon"><i class="ph ph-list"></i></div>
+</header>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero" id="accueil">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <!-- <span class="badge-pill reveal"><span class="badge-dot"></span>Disponible pour un stage</span> -->
+
+      <div class="hero-lines" style="margin-top:22px;">
+        <span class="hero-line-small reveal">Bonjour, je suis</span>
+
+        <div class="hero-line-name reveal">
+          <span class="hero-chip-img rot-l"><img src="./image/hero-portrait - Copie.png" alt="Projet Gestion Financière" loading="lazy"></span>
+          DAMEL<span class="dot-accent">.</span>
+          <!-- <span class="hero-chip-img rot-r"><img src="./image/MIEL.jpeg" alt="Projet BON MIEL" loading="lazy"></span> -->
+        </div>
+
+        <div class="hero-line-role reveal">Développeur Front-end</div>
+
+        <div class="hero-line-close reveal">
+          qui transforme <span class="code-chip">&lt;/&gt;</span> le code en
+          <span class="accent-word">interfaces qui marquent.</span>
+        </div>
+      </div>
+
+      <p class="hero-desc reveal">
+        Je construis des interfaces web soignées qui résolvent de vrais problèmes.
+        Mon terrain de jeu : transformer une idée en expérience utilisateur fluide,
+        accessible et visuellement mémorable.
+      </p>
+
+      <!-- <div class="hero-stats reveal">
+        <div class="hero-stat"><b>10+</b><span>Projets livrés</span></div>
+        <div class="hero-stat"><b>7+</b><span>Technologies</span></div>
+        <div class="hero-stat"><b>2+</b><span>Ans de pratique</span></div>
+      </div> -->
+
+      <div class="hero-cta reveal">
+        <a href="#contact" class="btn btn-primary magnetic"><i class="ph ph-chat-circle-text"></i>Me contacter</a>
+        <a href="./document/CV_Damiti.pdf" download="CV_Ouattara_Damiti.pdf" class="btn btn-ghost magnetic"><i class="ph ph-download-simple"></i>Télécharger mon CV</a>
+      </div>
+
+      <a href="#portfolio" class="hero-projects-badge reveal" aria-label="Voir mes derniers projets">
+        <span class="hero-projects-stack">
+          <span class="hero-projects-item"><img src="./image/gestion-financiere.png" alt="Projet Gestion Financière" draggable="false" loading="lazy"></span>
+          <span class="hero-projects-item"><img src="./image/MIEL.jpeg" alt="Projet BON MIEL" draggable="false" loading="lazy"></span>
+          <span class="hero-projects-item"><img src="./image/BOUFFE.jpeg" alt="Projet Dabalie De Babi" draggable="false" loading="lazy"></span>
+          <span class="hero-projects-item"><img src="./image/immobilier.jpeg" alt="Projet Y BTP Immobilier" draggable="false" loading="lazy"></span>
+          <span class="hero-projects-item"><img src="https://btp-site.netlify.app/assets/images/features-1.jpg" alt="Projet Y BTP Immobilier" draggable="false" loading="lazy"></span>
+        </span>
+        <span class="hero-projects-label">Voir mes derniers projets <i class="ph-bold ph-arrow-right"></i></span>
+      </a>
+    </div>
+
+  </div>
+
+
+</section>
+
+<!-- ══════════════════════ SCROLL SCATTER ══════════════════════ -->
+<section class="section-scatter" id="scatterStage">
+  <div class="scatter-pin">
+    <div class="scatter-copy">
+      <h2>Un code<br><span>qui</span> répond.</h2>
+      <p>Chaque projet est pensé comme une expérience à part entière : fluide, réactive et pensée pour l'utilisateur.</p>
+    </div>
+    <div class="scatter-cards" id="scatterCards">
+      <div class="scatter-card" data-card="1"><img src="./image/about-portrait.png" alt="Damiti — développeur web" loading="lazy"></div>
+      <div class="scatter-card" data-card="2"><img src="./image/immobilier.jpeg" alt="Projet Y Immobilier" loading="lazy"></div>
+      <div class="scatter-card" data-card="4"><img src="./image/BOUFFE.jpeg" alt="Projet Dabalie De Babi" loading="lazy"></div>
+      <div class="scatter-card" data-card="5"><img src="./image/MIEL.jpeg" alt="Projet BON MIEL" loading="lazy"></div>
+      <div class="scatter-card" data-card="6"><img src="./image/hero-portrait.png" alt="Damiti — développeur web" loading="lazy"></div>
+      <div class="scatter-card" data-card="8"><img src="./image/gestion-financiere.png" alt="Projet Gestion Financière" loading="lazy"></div>
+    </div>
+    <!-- <div class="scatter-hint" id="scatterHint"><span>Scroll</span><i class="ph ph-arrow-down"></i></div> -->
+  </div>
+</section>
+
+<!-- ══════════════════════ PROJETS ══════════════════════ -->
+<section class="section-projects" id="portfolio">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="ph-bold ph-briefcase"></i>Réalisations</span>
+      <h2 class="section-title">Mes derniers <em>projets</em></h2>
+      <p class="section-sub">Une sélection de sites et d'applications livrés pour des clients réels — du catalogue e-commerce au tableau de bord de gestion.</p>
+    </div>
+
+    <div id="projFeatured"></div>
+
+    <div class="proj-more-head reveal">
+      <h3>Tous mes projets</h3>
+      <a href="https://github.com/ouattaradamitidev-prog" target="_blank" rel="noopener noreferrer" class="proj-link">Voir sur GitHub <i class="ph ph-arrow-up-right"></i></a>
+    </div>
+    <div class="proj-more-grid" id="projMore"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════ SERVICES ══════════════════════ -->
+<section class="section-services" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="ph-bold ph-wrench"></i>Boîte à outils</span>
+      <h2 class="section-title">Mes outils <em>professionnels</em></h2>
+    </div>
+
+    <div class="tools-row reveal">
+      <span class="tool-chip"><i class="ph-bold ph-file-html"></i>HTML5</span>
+      <span class="tool-chip"><i class="ph-bold ph-paint-brush"></i>CSS3</span>
+      <span class="tool-chip"><i class="ph-bold ph-file-js"></i>JavaScript</span>
+      <span class="tool-chip"><i class="ph-bold ph-atom"></i>React.js</span>
+      <span class="tool-chip"><i class="ph-bold ph-wind"></i>Tailwind CSS</span>
+      <span class="tool-chip"><i class="ph-bold ph-file-php"></i>PHP</span>
+      <span class="tool-chip"><i class="ph-bold ph-database"></i>MySQL</span>
+      <span class="tool-chip"><i class="ph-bold ph-lightning"></i>GSAP</span>
+      <span class="tool-chip"><i class="ph-bold ph-figma-logo"></i>Figma</span>
+      <span class="tool-chip"><i class="ph-bold ph-git-branch"></i>Git &amp; GitHub</span>
+      <span class="tool-chip"><i class="ph-bold ph-sparkle"></i>Claude (IA)</span>
+    </div>
+
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="ph-bold ph-diamond"></i>Ce que je construis</span>
+      <h2 class="section-title">Ce dont votre projet <em>a besoin</em></h2>
+    </div>
+
+    <div id="servicesList"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CANAUX / INTÉGRATIONS ══════════════════════ -->
+<section class="section-integrations" id="canaux">
+  <div class="container integrations-grid">
+    <div class="integrations-cluster reveal">
+      <div class="integ-row">
+        <div class="integ-card" title="E-mail"><img src="./image/illustration-mail.png" alt="E-mail" loading="lazy"></div>
+        <div class="integ-card" title="WhatsApp"><img src="./image/illustration-whatsapp.png" alt="WhatsApp" loading="lazy"></div>
+      </div>
+      <div class="integ-row">
+        <div class="integ-card" title="Téléphone"><img src="./image/illustration-claude.png" alt="Téléphone" loading="lazy"></div>
+        <div class="integ-card is-center" title="Damiti Dev"><span class="integ-mark">D.</span></div>
+        <div class="integ-card" title="LinkedIn"><img src="./image/illustration-linkedin.png" alt="LinkedIn" loading="lazy"></div>
+      </div>
+      <div class="integ-row">
+        <div class="integ-card" title="GitHub"><img src="./image/illustration-github.png" alt="GitHub" loading="lazy"></div>
+        <div class="integ-card" title="Figma"><img src="./image/illustration-figma.png" alt="Figma" loading="lazy"></div>
+      </div>
+    </div>
+
+    <div class="integrations-copy reveal">
+      <h2 class="section-title">Je m'intègre à <em>votre façon</em> de travailler.</h2>
+      <p class="section-sub">E-mail, WhatsApp, appel ou visio pour échanger — GitHub et Figma pour suivre l'avancement du projet. Vous choisissez le canal, je m'adapte.</p>
+      <a href="#contact" class="btn btn-ghost" style="margin-top:24px;"><i class="ph ph-arrow-down-right"></i>Voir tous mes contacts</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ MANIFESTO ══════════════════════ -->
+<section class="manifesto">
+  <div class="container">
+    <h2 class="reveal">Construire des interfaces qui résolvent <em>de vrais problèmes.</em></h2>
+    <div class="code-window reveal">
+      <div class="code-window-bar"><span></span><span></span><span></span></div>
+      <pre><span class="c-com">// composant-carte.jsx</span>
+<span class="c-kw">export default function</span> <span class="c-tag">Carte</span>({ titre, description }) {
+  <span class="c-kw">return</span> (
+    &lt;<span class="c-tag">article</span> <span class="c-str">className</span>=<span class="c-str">"carte"</span>&gt;
+      &lt;<span class="c-tag">h3</span>&gt;{titre}&lt;/<span class="c-tag">h3</span>&gt;
+      &lt;<span class="c-tag">p</span>&gt;{description}&lt;/<span class="c-tag">p</span>&gt;
+    &lt;/<span class="c-tag">article</span>&gt;
+  );
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ GLYPH PORTAL ══════════════════════ -->
+<section class="gp" id="glyphPortal" aria-label="DAMEL">
+  <div class="gp-viewport" aria-hidden="true"></div>
+  <div class="gp-pin" id="gpPin">
+    <div class="gp-field" id="gpField" aria-hidden="true" inert>
+      <div class="gp-field-bg"></div>
+    </div>
+    <svg class="gp-art" id="gpArt" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="gpClip" clipPathUnits="userSpaceOnUse">
+          <text id="gpGlyph" x="0" y="0">DAMEL</text>
+        </clipPath>
+      </defs>
+    </svg>
+    <div class="gp-front" id="gpFront">
+      <div class="gp-front-header">
+        <!-- <span class="gp-front-logo">DAMEL<span class="dot-accent">.</span></span> -->
+        <!-- <span class="gp-front-cat">Développeur Front-end</span> -->
+      </div>
+      <!-- <p class="gp-front-eyebrow">Une autre façon de découvrir mon travail.</p> -->
+      <!-- <p class="gp-front-support">Faites défiler pour entrer.</p> -->
+      <!-- <span class="gp-front-scroll">Scroll pour zoomer <i class="ph ph-arrow-down"></i></span> -->
+    </div>
+    <span class="gp-fallback" aria-hidden="true">DAMEL</span>
+    <div class="gp-caption">
+      <!-- <a class="gp-enter" href="#gpContent">Découvrir <span aria-hidden="true">↘</span></a> -->
+    </div>
+  </div>
+  <div class="gp-content" id="gpContent" tabindex="-1">
+    <div class="gp-copy">
+      <h2 class="reveal">Derrière l'interface, un développeur qui construit pour de vrai.</h2>
+      <div class="gp-features">
+        <div class="gp-feature"><h3><span class="gp-no">01</span>Autodidacte &amp; rigoureux</h3><p>En licence informatique à Abidjan, je complète mes cours par des projets réels, testés par de vrais utilisateurs.</p></div>
+        <div class="gp-feature"><h3><span class="gp-no">02</span>Du design au déploiement</h3><p>Maquette, code, hébergement, suivi après la mise en ligne — je gère toute la chaîne.</p></div>
+        <div class="gp-feature"><h3><span class="gp-no">03</span>Toujours disponible</h3><p>Basé à Abobo, joignable par WhatsApp, e-mail ou visio, où que soit votre projet.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<noscript><style>#glyphPortal .gp-fallback{ display:grid; }</style></noscript>
+
+<!-- ══════════════════════ À PROPOS ══════════════════════ -->
+<section class="section-about" id="apropos">
+  <div class="container about-grid">
+    <div class="about-media reveal">
+      <div class="about-portrait">
+        <img src="./image/image (2).png" alt="Damiti — Développeur Web" loading="lazy" width="400" height="400">
+      </div>
+      <div class="about-socials">
+        <a href="https://www.linkedin.com/in/damiti-elie-eric-ouattara-286617348/" target="_blank" rel="noopener noreferrer" class="social-circle" title="LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
+        <a href="https://github.com/ouattaradamitidev-prog" target="_blank" rel="noopener noreferrer" class="social-circle" title="GitHub"><i class="ph-bold ph-github-logo"></i></a>
+        <a href="https://wa.me/2250713188565" target="_blank" rel="noopener noreferrer" class="social-circle" title="WhatsApp"><i class="ph-bold ph-whatsapp-logo"></i></a>
+        <a href="mailto:ouattara.damiti.dev@gmail.com" class="social-circle" title="E-mail"><i class="ph-bold ph-envelope-simple"></i></a>
+      </div>
+    </div>
+
+    <div>
+      <span class="eyebrow reveal"><i class="ph-bold ph-user"></i>Qui suis-je ?</span>
+      <h2 class="about-name reveal">Ouattara Damiti Elie Eric</h2>
+      <p class="about-role reveal">Développeur Web Front-end · Licence 3 Sciences Informatiques, ITA Abidjan</p>
+
+      <div class="reveal">
+        <h4 style="font-family:var(--font-display); font-size:1rem; margin-bottom:18px; color:var(--text-dim);">Mon parcours</h4>
+        <div class="timeline" id="timelineList"></div>
+        <button class="reveal-more" id="timelineToggle">Afficher tout <i class="ph ph-caret-down"></i></button>
+      </div>
+
+      <div class="about-bio reveal">
+        <p><strong>Bonjour, je suis Damiti.</strong> Ce qui me différencie ? Je ne code pas juste pour que ça marche, je code pour que ce soit <strong>beau, rapide et compréhensible</strong> par n'importe quel utilisateur.</p>
+        <p>Je m'intéresse particulièrement aux projets de <strong>gestion</strong> et aux <strong>plateformes de service</strong> — là où l'UX fait réellement la différence. Je pars toujours d'une structure HTML sémantique, j'applique un CSS précis et maintenable, puis j'enrichis avec JavaScript uniquement là où c'est nécessaire.</p>
+        <p>Mon objectif immédiat : décrocher un <strong>stage en entreprise</strong> pour confronter mes compétences à des projets réels et progresser sur <strong>React.js, Node.js et les outils pro</strong>.</p>
+      </div>
+
+      <div class="about-certs reveal">
+        <a href="./document/CERTIFICATION_IBM.pdf" target="_blank" rel="noopener noreferrer" class="cert-row">
+          <div><div class="cert-org">IBM · SkillsBuild</div><div class="cert-name">Web Development Fundamentals — 2024</div></div>
+          <i class="ph ph-arrow-up-right"></i>
+        </a>
+        <a href="./document/CERTIFICAT DE FORMATION SI 1.pdf" target="_blank" rel="noopener noreferrer" class="cert-row">
+          <div><div class="cert-org">ITA · Institut des Technologies d'Abidjan</div><div class="cert-name">Certificat de Formation SI 1 — 2023–2024</div></div>
+          <i class="ph ph-arrow-up-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ PROCESSUS ══════════════════════ -->
+<!-- <section class="section-process" id="processus">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="ph-bold ph-flow-arrow"></i>Méthode</span>
+      <h2 class="section-title">Un process clair. <em>Un résultat net.</em></h2>
+    </div>
+
+    <div class="orbital-wrap reveal" id="orbitalTimeline">
+      <div class="orbital-ring"></div>
+      <div class="orbital-core"><i class="ph-bold ph-sparkle"></i></div>
+    </div>
+    <p class="orbital-hint">Cliquez sur une étape pour voir le détail</p>
+
+    <div class="engage-card reveal">
+      <div>
+        <span class="eyebrow" style="margin-bottom:10px;"><i class="ph-bold ph-lightning"></i>Places disponibles</span>
+        <h3>Un projet unique, un périmètre clair.</h3>
+        <p>Idéal pour un site vitrine, une landing page ou une fonctionnalité précise à livrer rapidement.</p>
+        <a href="https://wa.me/2250713188565?text=Bonjour%20Damiti%2C%20je%20souhaite%20un%20devis%20pour%20mon%20projet." target="_blank" rel="noopener noreferrer" class="btn btn-primary magnetic"><i class="ph ph-file-text"></i>Obtenir un devis</a>
+      </div>
+      <ul class="engage-list">
+        <li><i class="ph-bold ph-check-circle"></i>Périmètre clairement défini</li>
+        <li><i class="ph-bold ph-check-circle"></i>Calendrier fixe, communiqué à l'avance</li>
+        <li><i class="ph-bold ph-check-circle"></i>Retours et ajustements inclus</li>
+        <li><i class="ph-bold ph-check-circle"></i>Suivi régulier des étapes clés</li>
+      </ul>
+    </div>
+  </div>
+</section> -->
+
+<!-- ══════════════════════ FAQ ══════════════════════ -->
+<section class="section-faq" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="ph-bold ph-question"></i>Questions fréquentes</span>
+      <h2 class="section-title">Vos questions, <em>mes réponses.</em></h2>
+    </div>
+    <div class="faq-list reveal" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CTA FINALE ══════════════════════ -->
+<div class="final-cta reveal">
+  <div class="final-cta-dots" aria-hidden="true"></div>
+  <span class="final-cta-corner final-cta-corner--tl" aria-hidden="true"></span>
+  <span class="final-cta-corner final-cta-corner--tr" aria-hidden="true"></span>
+  <span class="final-cta-corner final-cta-corner--bl" aria-hidden="true"></span>
+  <span class="final-cta-corner final-cta-corner--br" aria-hidden="true"></span>
+
+  <div class="final-cta-content">
+    <span class="final-cta-eyebrow">Prochaine étape</span>
+    <h2 class="final-cta-heading">
+      <span class="line"><span class="bold">Encore</span> <span class="thin">hésitant</span> <span class="bold">?</span></span>
+      <span class="line"><span class="thin">Discutons de</span> <span class="accent">votre projet,</span></span>
+      <span class="line"><span class="thin">sans</span> <span class="bold">engagement.</span></span>
+    </h2>
+    <p class="final-cta-sub">Décrivez-moi votre idée en quelques lignes — je réponds sous 24h avec une piste concrète.</p>
+    <a href="https://wa.me/2250713188565" target="_blank" rel="noopener noreferrer" class="btn btn-primary magnetic"><i class="ph ph-whatsapp-logo"></i>Me contacter sur WhatsApp</a>
+  </div>
+</div>
+
+<!-- ══════════════════════ FOOTER CINÉMATIQUE ══════════════════════ -->
+<div class="footer-curtain" id="contact">
+  <footer class="footer-cinematic">
+    <div class="footer-aurora" aria-hidden="true"></div>
+    <div class="footer-bg-grid" aria-hidden="true"></div>
+    <div class="footer-giant-text" data-parallax aria-hidden="true">DAMITI</div>
+
+    <div class="footer-marquee">
+      <div class="footer-marquee-track">
+        <div class="footer-marquee-item">
+          <span>Sites sur-mesure</span><span class="footer-marquee-dot"> </span>
+          <span>Design orienté conversion</span><span class="footer-marquee-dot footer-marquee-dot--alt"></span>
+          <span>Code propre &amp; documenté</span><span class="footer-marquee-dot"> </span>
+          <span>Réponse sous 24h</span><span class="footer-marquee-dot footer-marquee-dot--alt"> </span>
+          <span>Basé à Abidjan</span><span class="footer-marquee-dot"> </span>
+        </div>
+        <div class="footer-marquee-item">
+          <span>Sites sur-mesure</span><span class="footer-marquee-dot"> </span>
+          <span>Design orienté conversion</span><span class="footer-marquee-dot footer-marquee-dot--alt"></span>
+          <span>Code propre &amp; documenté</span><span class="footer-marquee-dot"> </span>
+          <span>Réponse sous 24h</span><span class="footer-marquee-dot footer-marquee-dot--alt"> </span>
+          <span>Basé à Abidjan</span><span class="footer-marquee-dot"> </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-cinematic-main">
+      <h2 class="footer-cinematic-heading reveal-footer">Prêt à démarrer <em>votre projet</em> ?</h2>
+
+      <div class="footer-cinematic-links reveal-footer">
+        <div class="footer-pill-row">
+          <a href="https://wa.me/2250713188565" target="_blank" rel="noopener noreferrer" class="footer-pill footer-pill--primary magnetic">
+            <i class="ph-bold ph-whatsapp-logo"></i> Me contacter sur WhatsApp
+          </a>
+          <a href="./document/CV_Damiti.pdf" download="CV_Ouattara_Damiti.pdf" class="footer-pill footer-pill--primary magnetic">
+            <i class="ph-bold ph-download-simple"></i> Télécharger mon CV
+          </a>
+        </div>
+        <div class="footer-pill-row footer-pill-row--secondary">
+          <a href="#portfolio" class="footer-pill magnetic">Projets</a>
+          <a href="#services" class="footer-pill magnetic">Services</a>
+          <a href="#apropos" class="footer-pill magnetic">Compétences</a>
+          <a href="#faq" class="footer-pill magnetic">FAQ</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-cinematic-bottom">
+      <div class="footer-copyright">© 2026 Ouattara Damiti. Tous droits réservés.</div>
+
+      <!-- <div class="footer-pill footer-credit">
+        <span>Conçu avec</span>
+        <span class="footer-heart" aria-hidden="true">❤</span>
+        <span>par Damiti</span>
+      </div> -->
+
+      <button type="button" class="footer-pill footer-totop magnetic" id="footerToTop" aria-label="Retour en haut de la page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+      </button>
+    </div>
+  </footer>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>
