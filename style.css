@@ -357,14 +357,102 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:800; letter-spacing:-0
 
 /* ══════════════ TOOLS + SERVICES ══════════════ */
 .section-services{ padding:clamp(80px,9vw,130px) 0; border-top:1px solid var(--border); }
-.tools-row{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:clamp(60px,8vw,96px); }
-.tool-chip{
-  display:flex; align-items:center; gap:9px; padding:11px 18px; border-radius:var(--radius-pill);
-  background:var(--surface); border:1px solid var(--border); font-size:.86rem; font-weight:500;
-  transition:border-color .2s ease, transform .2s ease;
+
+/* Grille bento (VARIANCE 8) : tuiles carrées uniformes, densité aérée (DENSITY 3).
+   Inspiration 21st.dev "Magnified Bento" / "Cybernetic Bento Grid" — dock d'icônes,
+   label façon tooltip qui surgit sous la tuile sans jamais déplacer la grille. */
+/* Grille "Logo Cloud" (adaptation du pattern 21st.dev en CSS natif — pas de
+   React/shadcn ici, le stack du projet est HTML/CSS/JS pur) : grille bordée
+   dont les traits horizontaux débordent en pleine largeur d'écran, cellules
+   alternées en damier, croix décoratives aux intersections internes, logos en
+   niveaux de gris qui reprennent leur couleur au survol. */
+.tools-cloud{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  border-left:1px solid var(--border); border-right:1px solid var(--border);
+  margin-bottom:clamp(60px,8vw,96px);
 }
-.tool-chip:hover{ border-color:var(--accent); transform:translateY(-3px); }
-.tool-chip i{ color:var(--accent); font-size:1.1rem; }
+.tools-cloud::before,
+.tools-cloud::after{
+  content:""; position:absolute; left:50%; width:100vw; transform:translateX(-50%);
+  border-top:1px solid var(--border); pointer-events:none;
+}
+.tools-cloud::before{ top:-1px; }
+.tools-cloud::after{ bottom:-1px; }
+
+.tool-chip{
+  position:relative;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  aspect-ratio:1; padding:14px;
+  border-right:1px solid var(--border); border-bottom:1px solid var(--border);
+  cursor:default;
+  transition:background-color .25s ease;
+}
+.tool-chip:nth-child(odd){ background:var(--surface); }
+.tool-chip:nth-child(even){ background:transparent; }
+.tool-chip:nth-child(5n){ border-right:none; }
+.tool-chip:nth-child(n+11){ border-bottom:none; }
+
+/* Croix aux intersections internes du quadrillage (desktop, grille 5×3 exacte) */
+.tool-chip:not(:nth-child(5n)):nth-child(-n+10)::before{
+  content:"+"; position:absolute; right:-9px; bottom:-11px; z-index:3;
+  font-size:1rem; line-height:1; color:var(--text-faint); pointer-events:none;
+  font-family:var(--font-body);
+}
+
+.tool-chip:hover{ background:var(--surface-2); z-index:2; }
+.tool-chip i{
+  color:var(--text-faint); font-size:2.4rem;
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94), color .3s ease;
+}
+.tool-chip img{
+  width:52px; height:52px; object-fit:contain;
+  filter:grayscale(1) opacity(.55);
+  transition:transform .3s cubic-bezier(.25,.46,.45,.94), filter .3s ease;
+}
+.tool-chip:hover i{ color:var(--accent); transform:scale(1.12); }
+.tool-chip:hover img{ filter:grayscale(0) opacity(1); transform:scale(1.12); }
+
+/* Label "dock" : masqué par défaut, surgit sous la tuile au survol en position
+   absolue — n'affecte jamais la hauteur de la grille ni les tuiles voisines. */
+.tool-chip-label{
+  position:absolute; left:50%; bottom:6px; z-index:6;
+  transform:translate(-50%, 0); opacity:0; pointer-events:none;
+  background:var(--surface-2); border:1px solid var(--border-2);
+  padding:4px 11px; border-radius:var(--radius-pill);
+  font-size:.72rem; font-weight:600; white-space:nowrap; color:var(--text);
+  transition:opacity .22s ease, transform .28s cubic-bezier(.25,.46,.45,.94);
+}
+.tool-chip:hover .tool-chip-label{ opacity:1; transform:translate(-50%, 130%); }
+
+@media (prefers-reduced-motion:reduce){
+  .tool-chip, .tool-chip i, .tool-chip img, .tool-chip-label{ transition:none; }
+  .tool-chip:hover i, .tool-chip:hover img{ transform:none; }
+  .tool-chip:hover .tool-chip-label{ transform:translate(-50%, 130%); }
+}
+@media (max-width:900px){
+  .tools-cloud{ grid-template-columns:repeat(3, 1fr); }
+  .tool-chip:nth-child(5n){ border-right:1px solid var(--border); }
+  .tool-chip:nth-child(n+11){ border-bottom:1px solid var(--border); }
+  .tool-chip:nth-child(3n){ border-right:none; }
+  .tool-chip:nth-child(n+13){ border-bottom:none; }
+  .tool-chip:not(:nth-child(5n)):nth-child(-n+10)::before{ content:none; }
+  .tool-chip:not(:nth-child(3n)):nth-child(-n+12)::before{
+    content:"+"; position:absolute; right:-9px; bottom:-11px; z-index:3;
+    font-size:1rem; line-height:1; color:var(--text-faint); pointer-events:none;
+  }
+}
+@media (max-width:640px){
+  .tools-cloud{ grid-template-columns:repeat(2, 1fr); }
+  .tool-chip:nth-child(3n){ border-right:1px solid var(--border); }
+  .tool-chip:nth-child(n+13){ border-bottom:1px solid var(--border); }
+  .tool-chip:nth-child(2n){ border-right:none; }
+  .tool-chip:nth-child(n+15){ border-bottom:none; }
+  .tool-chip:not(:nth-child(3n)):nth-child(-n+12)::before{ content:none; }
+  .tool-chip img{ width:38px; height:38px; }
+  .tool-chip i{ font-size:1.9rem; }
+}
 
 .service-row{
   display:grid; grid-template-columns:70px 1fr 1.3fr; gap:24px; align-items:start;
