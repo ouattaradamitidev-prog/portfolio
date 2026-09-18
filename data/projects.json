@@ -1,0 +1,52 @@
+{
+  "featured": [
+    {
+      "src": "./image/projects/gestion-financiere.png",
+      "href": "https://gestion-finance.infinityfreeapp.com",
+      "title": "Gestion Financière",
+      "desc": "App complète avec tableau de bord admin, suivi des transactions, notifications temps réel et génération de reçus PDF.",
+      "tech": [
+        "PHP",
+        "MySQL",
+        "Tailwind",
+        "API REST"
+      ],
+      "year": "2026"
+    },
+    {
+      "src": "",
+      "href": "https://app-boutique-miel.netlify.app",
+      "title": "BON MIEL",
+      "desc": "Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp — sans serveur.",
+      "tech": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "LocalStorage"
+      ],
+      "year": "2024"
+    }
+  ],
+  "more": [
+    {
+      "src": "",
+      "href": "https://novushausci.vercel.app/",
+      "title": "NovusHaus — Mobilier"
+    },
+    {
+      "src": "",
+      "href": "https://restau-ci.vercel.app/",
+      "title": "Restau CI"
+    },
+    {
+      "src": "",
+      "href": "https://ventevoitureci.vercel.app/",
+      "title": "Vente Voiture CI"
+    },
+    {
+      "src": "",
+      "href": "https://fitivoireci.vercel.app/",
+      "title": "Salle de Sport CI"
+    }
+  ]
+}
