@@ -3,14 +3,37 @@
    ══════════════════════════════════════════════════════════ */
 document.documentElement.classList.add('js-ready');
 
-/* ── données réelles des projets (issues du portfolio existant) ── */
-const PROJECTS = [
+/* ── compteur de visites (tableau de bord) ──────────────────────────
+   Envoie un signal discret au backend Django à chaque chargement de
+   page, pour alimenter le compteur de visites du tableau de bord.
+   Remplace l'URL ci-dessous par celle de ton service Render une fois
+   déployé (ex. 'https://portfolio-admin.onrender.com'). Si l'appel
+   échoue (backend éteint, pas encore déployé...), le site continue de
+   fonctionner normalement : aucune dépendance n'est créée. ── */
+const BACKEND_URL = 'https://TON-SERVICE.onrender.com';
+if (BACKEND_URL && !BACKEND_URL.includes('TON-SERVICE')) {
+  try {
+    fetch(`${BACKEND_URL}/api/track/`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ path: location.pathname }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch (e) { /* silencieux : le compteur n'est jamais bloquant */ }
+}
+
+/* ── données de SECOURS uniquement (si data/projects.json est injoignable :
+   ouverture locale du fichier, coupure réseau...). En temps normal, les
+   projets affichés viennent de data/projects.json, régénéré automatiquement
+   par le backend Django à chaque ajout/modification depuis l'admin. ── */
+const PROJECTS_FALLBACK = [
   { src:'./image/gestion-financiere.png', href:'https://gestion-finance.infinityfreeapp.com', title:'Gestion Financière', desc:"App complète avec tableau de bord admin, suivi des transactions, notifications temps réel et génération de reçus PDF.", tech:['PHP','MySQL','Tailwind','API REST'], year:'2026' },
   { src:'./image/MIEL.jpeg', href:'https://app-boutique-miel.netlify.app', title:'BON MIEL', desc:"Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp — sans serveur.", tech:['HTML5','CSS3','JavaScript','LocalStorage'], year:'2024' },
   { src:'./image/BOUFFE.jpeg', href:'https://damitielieericouattara-rgb.github.io/restaurant/', title:'Dabalie De Babi', desc:"Plateforme street food ivoirienne : catalogue, panier, suivi de commande. Front JS + back PHP / MySQL.", tech:['HTML5','JavaScript','PHP','MySQL'], year:'2024' },
   { src:'https://btp-site.netlify.app/assets/images/features-1.jpg', href:'https://btp-site.netlify.app', title:'Y BTP Immobilier', desc:"Site vitrine BTP complet : planning, architecture, construction et aménagement intérieur. Galerie de projets filtrée.", tech:['HTML5','CSS3','JavaScript'], year:'2025' },
 ];
-const PROJECTS_MORE = [
+const PROJECTS_MORE_FALLBACK = [
   { src:'./image/novushaus.jpeg', href:'https://novushausci.vercel.app/', title:'NovusHaus — Mobilier' },
   { src:'./image/tic-infinite-corridor.jpeg', href:'https://ouattaradamitidev-prog.github.io/PROJET_INFINIT_site/', title:'TIC — The Infinite Corridor' },
   { src:'./image/restau-ci.jpeg', href:'https://restau-ci.vercel.app/', title:'Restau CI' },
@@ -43,21 +66,28 @@ const FAQ = [
   { q:"Comment se passe la communication pendant le projet ?", a:"Par email ou WhatsApp, avec des points d'étape réguliers pour que vous suiviez l'avancement sans surprise à la livraison." },
 ];
 
-/* ── injection contenu dynamique ── */
+/* ── injection contenu dynamique ──
+   Tout le reste du fichier (rendu, navigation, animations) est regroupé
+   dans initPortfolio() et n'est exécuté qu'une fois les projets chargés
+   depuis data/projects.json (ou les données de secours ci-dessus) — les
+   animations GSAP plus bas ont besoin que les cartes projets existent
+   déjà dans le DOM. ── */
+function initPortfolio(projects, projectsMore) {
+
 function mkImg(src, alt){ return `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">`; }
 
-document.getElementById('projFeatured').innerHTML = PROJECTS.map(p => `
+document.getElementById('projFeatured').innerHTML = projects.map(p => `
   <article class="proj-feature reveal">
-    <div class="proj-media"><span class="proj-year">${p.year}</span>${mkImg(p.src, p.title)}</div>
+    <div class="proj-media"><span class="proj-year">${p.year || ''}</span>${mkImg(p.src, p.title)}</div>
     <div class="proj-info">
       <h3>${p.title}</h3>
-      <p>${p.desc}</p>
-      <div class="proj-tags">${p.tech.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <p>${p.desc || ''}</p>
+      <div class="proj-tags">${(p.tech || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
       <a href="${p.href}" target="_blank" rel="noopener noreferrer" class="proj-link">Voir le projet <i class="ph ph-arrow-up-right"></i></a>
     </div>
   </article>`).join('');
 
-document.getElementById('projMore').innerHTML = PROJECTS_MORE.map(p => `
+document.getElementById('projMore').innerHTML = projectsMore.map(p => `
   <div class="proj-mini reveal">
     <div class="proj-mini-media">${mkImg(p.src, p.title)}</div>
     <div class="proj-mini-body">
@@ -718,3 +748,18 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
 
   ScrollTrigger.refresh();
 })();
+
+} /* fin initPortfolio() */
+
+/* ── chargement des projets depuis le backend Django (via GitHub Pages) ──
+   data/projects.json est régénéré et poussé automatiquement sur ce repo
+   à chaque ajout/modification de projet dans l'admin Django. Si le fichier
+   est introuvable (site ouvert en local, coupure réseau...), on retombe
+   sur les données de secours pour que le site reste toujours fonctionnel. ── */
+fetch('./data/projects.json', { cache: 'no-store' })
+  .then(r => { if (!r.ok) throw new Error('projects.json indisponible'); return r.json(); })
+  .then(data => initPortfolio(
+    Array.isArray(data.featured) && data.featured.length ? data.featured : PROJECTS_FALLBACK,
+    Array.isArray(data.more) && data.more.length ? data.more : PROJECTS_MORE_FALLBACK
+  ))
+  .catch(() => initPortfolio(PROJECTS_FALLBACK, PROJECTS_MORE_FALLBACK));
