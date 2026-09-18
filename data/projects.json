@@ -14,7 +14,7 @@
       "year": "2026"
     },
     {
-      "src": "",
+      "src": "./image/projects/bon-miel.jpeg",
       "href": "https://app-boutique-miel.netlify.app",
       "title": "BON MIEL",
       "desc": "Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp — sans serveur.",
