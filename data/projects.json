@@ -64,6 +64,11 @@
       "title": "TIC — The Infinite Corridor"
     },
     {
+      "src": "./image/projects/restau-ci.png",
+      "href": "https://restau-ci.vercel.app/",
+      "title": "Restau CI"
+    },
+    {
       "src": "./image/projects/y-immobilier.png",
       "href": "https://immobilier-site.netlify.app/",
       "title": "Y Immobilier"
