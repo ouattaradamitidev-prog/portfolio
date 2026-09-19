@@ -54,6 +54,11 @@
   ],
   "more": [
     {
+      "src": "./image/projects/novushaus-mobilier.png",
+      "href": "https://novushausci.vercel.app/",
+      "title": "NovusHaus — Mobilier"
+    },
+    {
       "src": "./image/projects/y-immobilier.png",
       "href": "https://immobilier-site.netlify.app/",
       "title": "Y Immobilier"
