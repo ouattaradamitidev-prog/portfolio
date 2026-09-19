@@ -69,6 +69,11 @@
       "title": "Restau CI"
     },
     {
+      "src": "./image/projects/vente-voiture-ci.png",
+      "href": "https://ventevoitureci.vercel.app/",
+      "title": "Vente Voiture CI"
+    },
+    {
       "src": "./image/projects/y-immobilier.png",
       "href": "https://immobilier-site.netlify.app/",
       "title": "Y Immobilier"
