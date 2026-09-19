@@ -38,6 +38,18 @@
         "MySQL"
       ],
       "year": "2024"
+    },
+    {
+      "src": "./image/projects/y-btp-immobilier.jpeg",
+      "href": "https://btp-site.netlify.app",
+      "title": "Y BTP Immobilier",
+      "desc": "Site vitrine BTP complet : planning, architecture, construction et aménagement intérieur. Galerie de projets filtrée.",
+      "tech": [
+        "HTML5",
+        "CSS3",
+        "JavaScript"
+      ],
+      "year": "2025"
     }
   ],
   "more": []
