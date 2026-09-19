@@ -59,6 +59,11 @@
       "title": "NovusHaus — Mobilier"
     },
     {
+      "src": "./image/projects/tic-the-infinite-corridor.png",
+      "href": "https://ouattaradamitidev-prog.github.io/PROJET_INFINIT_site/",
+      "title": "TIC — The Infinite Corridor"
+    },
+    {
       "src": "./image/projects/y-immobilier.png",
       "href": "https://immobilier-site.netlify.app/",
       "title": "Y Immobilier"
