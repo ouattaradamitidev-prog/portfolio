@@ -25,6 +25,19 @@
         "LocalStorage"
       ],
       "year": "2024"
+    },
+    {
+      "src": "./image/projects/dabalie-de-babi.jpeg",
+      "href": "https://damitielieericouattara-rgb.github.io/restaurant/",
+      "title": "Dabalie De Babi",
+      "desc": "Plateforme street food ivoirienne : catalogue, panier, suivi de commande. Front JS + back PHP / MySQL.",
+      "tech": [
+        "HTML5",
+        "JavaScript",
+        "PHP",
+        "MySQL"
+      ],
+      "year": "2024"
     }
   ],
   "more": []
