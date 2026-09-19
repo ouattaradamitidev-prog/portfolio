@@ -14,6 +14,18 @@
       "year": "2026"
     },
     {
+      "src": "./image/projects/version-1-_-portfolio.jpeg",
+      "href": "https://damiti-ouattara.vercel.app/",
+      "title": "Version 1 _ portfolio",
+      "desc": "Version 1 de mon portfolio",
+      "tech": [
+        "HTML5",
+        "CSS3",
+        "JavaScript"
+      ],
+      "year": "2025"
+    },
+    {
       "src": "./image/projects/bon-miel.jpeg",
       "href": "https://app-boutique-miel.netlify.app",
       "title": "BON MIEL",
