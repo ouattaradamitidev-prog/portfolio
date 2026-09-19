@@ -52,5 +52,11 @@
       "year": "2025"
     }
   ],
-  "more": []
+  "more": [
+    {
+      "src": "./image/projects/salle-de-sport-ci.png",
+      "href": "https://fitivoireci.vercel.app/",
+      "title": "Salle de Sport CI"
+    }
+  ]
 }
