@@ -26,19 +26,6 @@
       "year": "2025"
     },
     {
-      "src": "./image/projects/bon-miel.jpeg",
-      "href": "https://app-boutique-miel.netlify.app",
-      "title": "BON MIEL",
-      "desc": "Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp — sans serveur.",
-      "tech": [
-        "HTML5",
-        "CSS3",
-        "JavaScript",
-        "LocalStorage"
-      ],
-      "year": "2024"
-    },
-    {
       "src": "./image/projects/dabalie-de-babi.jpeg",
       "href": "https://damitielieericouattara-rgb.github.io/restaurant/",
       "title": "Dabalie De Babi",
@@ -69,6 +56,11 @@
       "src": "./image/projects/novushaus-mobilier.png",
       "href": "https://novushausci.vercel.app/",
       "title": "NovusHaus — Mobilier"
+    },
+    {
+      "src": "./image/projects/bon-miel.jpeg",
+      "href": "https://app-boutique-miel.netlify.app",
+      "title": "BON MIEL"
     },
     {
       "src": "./image/projects/tic-the-infinite-corridor.png",
