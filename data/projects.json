@@ -37,18 +37,6 @@
         "MySQL"
       ],
       "year": "2024"
-    },
-    {
-      "src": "./image/projects/y-btp-immobilier.jpeg",
-      "href": "https://btp-site.netlify.app",
-      "title": "Y BTP Immobilier",
-      "desc": "Site vitrine BTP complet : planning, architecture, construction et aménagement intérieur. Galerie de projets filtrée.",
-      "tech": [
-        "HTML5",
-        "CSS3",
-        "JavaScript"
-      ],
-      "year": "2025"
     }
   ],
   "more": [
@@ -71,6 +59,11 @@
       "src": "./image/projects/restau-ci.png",
       "href": "https://restau-ci.vercel.app/",
       "title": "Restau CI"
+    },
+    {
+      "src": "./image/projects/y-btp-immobilier.jpeg",
+      "href": "https://btp-site.netlify.app",
+      "title": "Y BTP Immobilier"
     },
     {
       "src": "./image/projects/vente-voiture-ci.png",
