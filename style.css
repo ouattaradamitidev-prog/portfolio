@@ -220,6 +220,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:800; letter-spacing:-0
 .hero-copy{ max-width:720px; margin-inline:auto; }
 
 .hero-lines{ display:flex; flex-direction:column; gap:2px; }
+/* le bloc est un <h1> (titre principal pour Google) : il ne doit pas imposer
+   ses styles de titre, chaque ligne garde sa propre typographie */
+h1.hero-lines{ margin:0; font-size:inherit; font-weight:inherit; line-height:1.6; letter-spacing:normal; }
 .hero-line-small{
   font-family:var(--font-body); font-weight:500; color:var(--text-dim); font-size:clamp(1rem,1.6vw,1.25rem);
 }

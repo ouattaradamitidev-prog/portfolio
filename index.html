@@ -3,15 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Portfolio de Ouattara Damiti Elie Eric (DAMEL) — Développeur web front-end à Abidjan. Je conçois des interfaces qui font gagner du temps aux utilisateurs et de la crédibilité aux entreprises.">
-<meta name="keywords" content="développeur web, front-end, stage, Abidjan, HTML, CSS, JavaScript, React, portfolio, Damiti Dev">
+<title>Ouattara Damiti (DAMEL) · Développeur Web Front-end à Abidjan</title>
+<meta name="description" content="Portfolio de Ouattara Damiti Elie Eric (DAMEL), développeur web front-end à Abidjan, en stage chez ATG. Sites vitrines, e-commerce et applications web React et PHP.">
+<meta name="keywords" content="Ouattara Damiti, Damiti Ouattara, DAMEL, développeur web Abidjan, développeur front-end Côte d'Ivoire, création site web Abidjan, React, JavaScript, PHP, portfolio">
 <meta name="author" content="Ouattara Damiti Elie Lindaye Eric">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://damel.vercel.app/">
 <meta name="theme-color" content="#0A0A0C">
-<meta property="og:title" content="DAMEL — Développeur Web Front-end">
+
+<!-- Partage (WhatsApp, LinkedIn, Facebook, X) -->
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="DAMEL">
+<meta property="og:url" content="https://damel.vercel.app/">
+<meta property="og:title" content="Ouattara Damiti (DAMEL) · Développeur Web Front-end à Abidjan">
 <meta property="og:description" content="Je conçois des interfaces qui font gagner du temps aux utilisateurs et de la crédibilité aux entreprises.">
-<meta property="og:type" content="website">
-<title>DAMEL — Développeur Web Front-end | Portfolio</title>
+<meta property="og:image" content="https://damel.vercel.app/image/about-portrait.png">
+<meta property="og:image:width" content="736">
+<meta property="og:image:height" content="736">
+<meta property="og:image:alt" content="Portrait de Ouattara Damiti, développeur web front-end">
+<meta property="profile:first_name" content="Damiti">
+<meta property="profile:last_name" content="Ouattara">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ouattara Damiti (DAMEL) · Développeur Web Front-end">
+<meta name="twitter:description" content="Sites vitrines, e-commerce et applications web, à Abidjan.">
+<meta name="twitter:image" content="https://damel.vercel.app/image/about-portrait.png">
+
 <link rel="icon" type="image/svg+xml" href="./image/favicon.svg">
+<link rel="apple-touch-icon" href="./image/about-portrait.png">
+
+<!-- Données structurées : aident Google à relier le site, le nom et les profils -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://damel.vercel.app/#damiti",
+      "name": "Ouattara Damiti Elie Eric",
+      "alternateName": [
+        "DAMEL",
+        "Damiti Ouattara",
+        "Damiti Dev"
+      ],
+      "jobTitle": "Développeur Web Front-end",
+      "description": "Développeur web front-end à Abidjan, en stage chez ATG. Conçoit des sites vitrines, des boutiques en ligne et des applications web (HTML, CSS, JavaScript, React, PHP, MySQL).",
+      "url": "https://damel.vercel.app/",
+      "image": "https://damel.vercel.app/image/about-portrait.png",
+      "email": "mailto:ouattara.damiti.dev@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Abidjan",
+        "addressCountry": "CI"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "ATG"
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Institut des Technologies d'Abidjan (ITA)"
+      },
+      "knowsAbout": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "React.js",
+        "Tailwind CSS",
+        "PHP",
+        "MySQL",
+        "PostgreSQL",
+        "Python",
+        "GSAP",
+        "Figma",
+        "Git",
+        "Développement web front-end"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/damiti-elie-eric-ouattara-286617348/",
+        "https://github.com/ouattaradamitidev-prog"
+      ]
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://damel.vercel.app/#page",
+      "url": "https://damel.vercel.app/",
+      "name": "Ouattara Damiti (DAMEL), Développeur Web Front-end à Abidjan",
+      "inLanguage": "fr",
+      "mainEntity": {
+        "@id": "https://damel.vercel.app/#damiti"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://damel.vercel.app/#site",
+      "url": "https://damel.vercel.app/",
+      "name": "DAMEL, portfolio de Ouattara Damiti",
+      "inLanguage": "fr",
+      "author": {
+        "@id": "https://damel.vercel.app/#damiti"
+      }
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,22 +204,22 @@
     <div class="hero-copy">
       <!-- <span class="badge-pill reveal"><span class="badge-dot"></span>Disponible pour un stage</span> -->
 
-      <div class="hero-lines" style="margin-top:22px;">
+      <h1 class="hero-lines" style="margin-top:22px;">
         <span class="hero-line-small reveal">Bonjour, je suis</span>
 
-        <div class="hero-line-name reveal">
-          <span class="hero-chip-img rot-l"><img src="./image/hero-portrait - Copie.png" alt="Projet Gestion Financière" loading="lazy"></span>
+        <span class="hero-line-name reveal">
+          <span class="hero-chip-img rot-l"><img src="./image/hero-portrait - Copie.png" alt="Portrait de Ouattara Damiti" loading="lazy"></span>
           DAMEL<span class="dot-accent">.</span>
           <!-- <span class="hero-chip-img rot-r"><img src="./image/MIEL.jpeg" alt="Projet BON MIEL" loading="lazy"></span> -->
-        </div>
+        </span>
 
-        <div class="hero-line-role reveal">Développeur Front-end</div>
+        <span class="hero-line-role reveal">Développeur Front-end</span>
 
-        <div class="hero-line-close reveal">
+        <span class="hero-line-close reveal">
           qui transforme <span class="code-chip">&lt;/&gt;</span> le code en
           <span class="accent-word">interfaces qui marquent.</span>
-        </div>
-      </div>
+        </span>
+      </h1>
 
       <p class="hero-desc reveal">
         Je construis des interfaces web soignées qui résolvent de vrais problèmes.
