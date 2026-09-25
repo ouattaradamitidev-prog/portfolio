@@ -21,6 +21,8 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
+<!-- Police graffiti du logo : seuls les glyphes "damel." sont téléchargés. -->
+<link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&text=damel.&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/lenis.css">
 <link rel="stylesheet" href="style.css">
 
@@ -33,12 +35,58 @@
 </head>
 <body>
 
+<!-- ══════════════════════ PRÉCHARGEUR ══════════════════════ -->
+<div class="preloader" id="preloader" role="status" aria-label="Chargement du portfolio">
+  <div class="cl-counter" aria-hidden="true">
+    <div class="cl-tens"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="cl-timer">
+      <span class="cl-1"></span>
+      <span class="cl-2"></span>
+      <span class="cl-3"></span>
+      <span class="cl-4"></span>
+      <span class="cl-5 cl-off"></span>
+      <span class="cl-6"></span>
+      <span class="cl-7"></span>
+      <span class="cl-8"></span>
+      <span class="cl-9"></span>
+      <span class="cl-10"></span>
+      <span class="cl-11 cl-off"></span>
+      <span class="cl-12"></span>
+      <span class="cl-13"></span>
+      <span class="cl-14"></span>
+      <span class="cl-15"></span>
+    </div>
+  </div>
+  <span class="preloader-label" aria-hidden="true">damel<b>.</b></span>
+</div>
+<noscript><style>.preloader{display:none}</style></noscript>
+<script>
+  // Bloque le scroll pendant le chargement, puis retire le préchargeur en
+  // fondu une fois le compteur arrivé à 10 (≈ 2,9 s, 6 s max).
+  document.documentElement.classList.add('is-loading');
+  (function(){
+    var start = Date.now(), done = false;
+    function hide(){
+      if (done) return; done = true;
+      var el = document.getElementById('preloader');
+      document.documentElement.classList.remove('is-loading');
+      if (window.__lenis) window.__lenis.start();
+      if (!el) return;
+      el.classList.add('is-done');
+      setTimeout(function(){ el.remove(); }, 700);
+    }
+    window.addEventListener('load', function(){
+      setTimeout(hide, Math.max(0, 2900 - (Date.now() - start)));
+    });
+    setTimeout(hide, 6000);
+  })();
+</script>
+
 <!-- ══════════════════════ NAV ══════════════════════ -->
 <header class="nav" id="siteNav">
   <div class="nav-inner" id="navInner">
     <a href="#accueil" class="nav-logo">
-      <span class="nav-logo-icon"><i class="ph ph-compass"></i></span>
-      PORTFOLIO<span>.</span>
+      damel<span>.</span>
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="#accueil">Accueil</a>
@@ -52,7 +100,7 @@
       <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu"><i class="ph ph-list"></i></button>
     </div>
   </div>
-  <div class="nav-collapsed-icon"><i class="ph ph-list"></i></div>
+  <button type="button" class="nav-collapsed-icon" aria-label="Afficher le menu" tabindex="-1">damel<span>.</span></button>
 </header>
 
 <!-- ══════════════════════ HERO ══════════════════════ -->
@@ -112,42 +160,17 @@
 
 </section>
 
-<!-- ══════════════════════ SCROLL SCATTER ══════════════════════ -->
-<section class="section-scatter" id="scatterStage">
-  <div class="scatter-pin">
-    <div class="scatter-copy">
-      <h2>Un code<br><span>qui</span> répond.</h2>
-      <p>Chaque projet est pensé comme une expérience à part entière : fluide, réactive et pensée pour l'utilisateur.</p>
-    </div>
-    <div class="scatter-cards" id="scatterCards">
-      <div class="scatter-card" data-card="1"><img src="./image/about-portrait.png" alt="Damiti — développeur web" loading="lazy"></div>
-      <div class="scatter-card" data-card="2"><img src="./image/immobilier.jpeg" alt="Projet Y Immobilier" loading="lazy"></div>
-      <div class="scatter-card" data-card="4"><img src="./image/BOUFFE.jpeg" alt="Projet Dabalie De Babi" loading="lazy"></div>
-      <div class="scatter-card" data-card="5"><img src="./image/MIEL.jpeg" alt="Projet BON MIEL" loading="lazy"></div>
-      <div class="scatter-card" data-card="6"><img src="./image/hero-portrait.png" alt="Damiti — développeur web" loading="lazy"></div>
-      <div class="scatter-card" data-card="8"><img src="./image/gestion-financiere.png" alt="Projet Gestion Financière" loading="lazy"></div>
-    </div>
-    <!-- <div class="scatter-hint" id="scatterHint"><span>Scroll</span><i class="ph ph-arrow-down"></i></div> -->
+<!-- ══════════════════════ LETTRES DANSANTES ══════════════════════ -->
+<section class="section-dance" aria-labelledby="danceTitle">
+  <div class="container dance-inner">
+    <h2 class="dance-title" id="danceTitle" aria-label="Vivant."><span class="dance-word">Vivant.</span></h2>
   </div>
 </section>
 
 <!-- ══════════════════════ PROJETS ══════════════════════ -->
-<section class="section-projects" id="portfolio">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow"><i class="ph-bold ph-briefcase"></i>Réalisations</span>
-      <h2 class="section-title">Mes derniers <em>projets</em></h2>
-      <p class="section-sub">Une sélection de sites et d'applications livrés pour des clients réels — du catalogue e-commerce au tableau de bord de gestion.</p>
-    </div>
-
-    <div id="projFeatured"></div>
-
-    <div class="proj-more-head reveal">
-      <h3>Tous mes projets</h3>
-      <a href="https://github.com/ouattaradamitidev-prog" target="_blank" rel="noopener noreferrer" class="proj-link">Voir sur GitHub <i class="ph ph-arrow-up-right"></i></a>
-    </div>
-    <div class="proj-more-grid" id="projMore"></div>
-  </div>
+<section class="section-projects" id="portfolio" aria-label="Mes projets">
+  <!-- Rempli par works-wheel.js à partir de data/projects.json -->
+  <div class="works-wheel" id="worksWheel"></div>
 </section>
 
 <!-- ══════════════════════ SERVICES ══════════════════════ -->
@@ -158,56 +181,136 @@
       <h2 class="section-title">Mes outils <em>professionnels</em></h2>
     </div>
 
-    <div class="tools-row tools-cloud reveal">
-      <span class="tool-chip"><img src="./image/illustration_html.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">HTML5</span></span>
-      <span class="tool-chip"><img src="./image/illustration_css.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">CSS3</span></span>
-      <span class="tool-chip"><img src="./image/illustration_js.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">JavaScript</span></span>
-      <span class="tool-chip"><img src="./image/illustrtion_React_js.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">React.js</span></span>
-      <span class="tool-chip"><img src="./image/illustration_Tailwind_CSS.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Tailwind CSS</span></span>
-      <span class="tool-chip"><img src="./image/illustration_php.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">PHP</span></span>
-      <span class="tool-chip"><img src="./image/illustration_MySQL.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">MySQL</span></span>
-      <span class="tool-chip"><img src="./image/illustration_postgreSql.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">PostgreSQL</span></span>
-      <span class="tool-chip"><img src="./image/illustration_python.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Python</span></span>
-      <span class="tool-chip"><img src="./image/illustration_docker.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Docker</span></span>
-      <span class="tool-chip"><i class="ph-bold ph-lightning" aria-hidden="true"></i><span class="tool-chip-label">GSAP</span></span>
-      <span class="tool-chip"><img src="./image/illustration-figma.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Figma</span></span>
-      <span class="tool-chip"><img src="./image/illustration_Git.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Git</span></span>
-      <span class="tool-chip"><img src="./image/illustration-github.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">GitHub</span></span>
-      <span class="tool-chip"><img src="./image/illustration-claude.png" alt="" aria-hidden="true" loading="lazy"><span class="tool-chip-label">Claude (IA)</span></span>
+    <div class="tt-groups">
+      <div class="tt-group">
+        <h3 class="tt-group-title"><i class="ph-bold ph-code" aria-hidden="true"></i>Front-end<span>3</span></h3>
+        <ul class="tt-row" aria-label="Front-end">
+        <li class="tt-item" tabindex="0" aria-label="HTML5, Structure sémantique">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>HTML5</strong><span>Structure sémantique</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_html.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="CSS3, Mise en page & animations">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>CSS3</strong><span>Mise en page & animations</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_css.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="JavaScript, Interactivité côté client">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>JavaScript</strong><span>Interactivité côté client</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_js.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        </ul>
+      </div>
+      <div class="tt-group">
+        <h3 class="tt-group-title"><i class="ph-bold ph-stack" aria-hidden="true"></i>Frameworks &amp; librairies<span>3</span></h3>
+        <ul class="tt-row" aria-label="Frameworks &amp; librairies">
+        <li class="tt-item" tabindex="0" aria-label="React.js, Interfaces en composants">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>React.js</strong><span>Interfaces en composants</span></span>
+          <span class="tt-avatar"><img src="./image/illustrtion_React_js.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="Tailwind CSS, Styles utilitaires">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Tailwind CSS</strong><span>Styles utilitaires</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_Tailwind_CSS.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="GSAP, Animations web">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>GSAP</strong><span>Animations web</span></span>
+          <span class="tt-avatar"><i class="ph-bold ph-lightning" aria-hidden="true"></i></span>
+        </li>
+        </ul>
+      </div>
+      <div class="tt-group">
+        <h3 class="tt-group-title"><i class="ph-bold ph-database" aria-hidden="true"></i>Back-end &amp; données<span>5</span></h3>
+        <ul class="tt-row" aria-label="Back-end &amp; données">
+        <li class="tt-item" tabindex="0" aria-label="PHP, Back-end & API">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>PHP</strong><span>Back-end & API</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_php.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="Python, Scripts & back-end">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Python</strong><span>Scripts & back-end</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_python.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="MySQL, Base de données">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>MySQL</strong><span>Base de données</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_MySQL.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="PostgreSQL, Base de données">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>PostgreSQL</strong><span>Base de données</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_postgreSql.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="Docker, Conteneurs">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Docker</strong><span>Conteneurs</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_docker.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        </ul>
+      </div>
+      <div class="tt-group">
+        <h3 class="tt-group-title"><i class="ph-bold ph-pen-nib" aria-hidden="true"></i>Design &amp; outils<span>4</span></h3>
+        <ul class="tt-row" aria-label="Design &amp; outils">
+        <li class="tt-item" tabindex="0" aria-label="Figma, Maquettes UI">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Figma</strong><span>Maquettes UI</span></span>
+          <span class="tt-avatar"><img src="./image/illustration-figma.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="Git, Versionnage">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Git</strong><span>Versionnage</span></span>
+          <span class="tt-avatar"><img src="./image/illustration_Git.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="GitHub, Dépôts & collaboration">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>GitHub</strong><span>Dépôts & collaboration</span></span>
+          <span class="tt-avatar"><img src="./image/illustration-github.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        <li class="tt-item" tabindex="0" aria-label="Claude (IA), Assistant de code">
+          <span class="tt-tip" aria-hidden="true"><span class="tt-line tt-line-a"></span><span class="tt-line tt-line-b"></span><strong>Claude (IA)</strong><span>Assistant de code</span></span>
+          <span class="tt-avatar"><img src="./image/illustration-claude.png" alt="" loading="lazy" width="84" height="84"></span>
+        </li>
+        </ul>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="section-head reveal">
-      <span class="eyebrow"><i class="ph-bold ph-diamond"></i>Ce que je construis</span>
-      <h2 class="section-title">Ce dont votre projet <em>a besoin</em></h2>
+<!-- ══════════════════════ SERVICES : frise horizontale ══════════════════════ -->
+<section class="svc-journey" aria-labelledby="svcTitle">
+  <div class="svc-viewport">
+    <div class="svc-track">
+      <figure class="svc-media">
+        <img src="./image/projects/bon-miel.jpeg" alt="Aperçu de BON MIEL, boutique en ligne réalisée par Damiti" loading="lazy">
+      </figure>
+      <div class="svc-rail">
+        <div class="svc-axis" aria-hidden="true"><span class="svc-axis-dot"></span><span class="svc-axis-line"></span></div>
+        <div class="svc-head">
+          <span class="eyebrow"><i class="ph-bold ph-diamond"></i>Ce que je construis</span>
+          <h2 class="svc-title" id="svcTitle">Ce dont votre projet <em>a besoin</em></h2>
+        </div>
+        <p class="svc-period">Du site vitrine à l'application complète</p>
+        <ol class="svc-list" id="servicesList"></ol>
+      </div>
     </div>
-
-    <div id="servicesList"></div>
   </div>
 </section>
 
 <!-- ══════════════════════ CANAUX / INTÉGRATIONS ══════════════════════ -->
 <section class="section-integrations" id="canaux">
   <div class="container integrations-grid">
-    <div class="integrations-cluster reveal">
-      <div class="integ-row">
-        <div class="integ-card" title="E-mail"><img src="./image/illustration-mail.png" alt="E-mail" loading="lazy"></div>
-        <div class="integ-card" title="WhatsApp"><img src="./image/illustration-whatsapp.png" alt="WhatsApp" loading="lazy"></div>
-      </div>
-      <div class="integ-row">
-        <div class="integ-card" title="Téléphone"><img src="./image/illustration-claude.png" alt="Téléphone" loading="lazy"></div>
-        <div class="integ-card is-center" title="Damiti Dev"><span class="integ-mark">D.</span></div>
-        <div class="integ-card" title="LinkedIn"><img src="./image/illustration-linkedin.png" alt="LinkedIn" loading="lazy"></div>
-      </div>
-      <div class="integ-row">
-        <div class="integ-card" title="GitHub"><img src="./image/illustration-github.png" alt="GitHub" loading="lazy"></div>
-        <div class="integ-card" title="Figma"><img src="./image/illustration-figma.png" alt="Figma" loading="lazy"></div>
-      </div>
-    </div>
-
     <div class="integrations-copy reveal">
       <h2 class="section-title">Je m'intègre à <em>votre façon</em> de travailler.</h2>
       <p class="section-sub">E-mail, WhatsApp, appel ou visio pour échanger — GitHub et Figma pour suivre l'avancement du projet. Vous choisissez le canal, je m'adapte.</p>
       <a href="#contact" class="btn btn-ghost" style="margin-top:24px;"><i class="ph ph-arrow-down-right"></i>Voir tous mes contacts</a>
+    </div>
+
+    <div class="int-visual reveal">
+      <div class="int-board">
+        <a class="int-tile has-logo" style="--r:1;--c:2" href="mailto:ouattara.damiti.dev@gmail.com" aria-label="E-mail" title="E-mail"><img src="./image/illustration-mail.png" alt="" loading="lazy"></a>
+        <a class="int-tile has-logo is-brand" style="--r:2;--c:2" href="#contact" aria-label="Me contacter" title="Me contacter"><span class="int-mark">D.</span></a>
+        <a class="int-tile has-logo" style="--r:2;--c:3" href="https://www.linkedin.com/in/damiti-elie-eric-ouattara-286617348/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><img src="./image/illustration-linkedin.png" alt="" loading="lazy"></a>
+        <a class="int-tile has-logo" style="--r:2;--c:1" href="https://wa.me/2250713188565" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><img src="./image/illustration-whatsapp.png" alt="" loading="lazy"></a>
+        <a class="int-tile has-logo" style="--r:1;--c:0" href="tel:+2250713188565" aria-label="Appel" title="Appel"><i class="ph-bold ph-phone" aria-hidden="true"></i></a>
+        <a class="int-tile has-logo" style="--r:3;--c:2" href="https://github.com/ouattaradamitidev-prog" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="ph-bold ph-github-logo" aria-hidden="true"></i></a>
+        <span class="int-tile has-logo" style="--r:3;--c:4" role="img" aria-label="Visio" title="Visio"><i class="ph-bold ph-video-camera" aria-hidden="true"></i></span>
+        <span class="int-tile has-logo" style="--r:4;--c:1" role="img" aria-label="Figma" title="Figma"><img src="./image/illustration-figma.png" alt="" loading="lazy"></span>
+        <span class="int-tile" style="--r:0;--c:1" aria-hidden="true"></span>
+        <span class="int-tile" style="--r:0;--c:3" aria-hidden="true"></span>
+        <span class="int-tile" style="--r:1;--c:4" aria-hidden="true"></span>
+        <span class="int-tile" style="--r:3;--c:0" aria-hidden="true"></span>
+        <span class="int-tile" style="--r:4;--c:3" aria-hidden="true"></span>
+      </div>
     </div>
   </div>
 </section>
@@ -290,10 +393,12 @@
     <div>
       <span class="eyebrow reveal"><i class="ph-bold ph-user"></i>Qui suis-je ?</span>
       <h2 class="about-name reveal">Ouattara Damiti Elie Eric</h2>
-      <p class="about-role reveal">Développeur Web Front-end · Licence 3 Sciences Informatiques, ITA Abidjan</p>
+      <p class="about-role reveal">Développeur Web Front-end · Stagiaire chez ATG · Licence 3 Sciences Informatiques, ITA Abidjan</p>
 
       <div class="reveal">
-        <h4 style="font-family:var(--font-display); font-size:1rem; margin-bottom:18px; color:var(--text-dim);">Mon parcours</h4>
+        <h4 class="timeline-heading">Expérience</h4>
+        <div class="timeline" id="experienceList"></div>
+        <h4 class="timeline-heading">Formation</h4>
         <div class="timeline" id="timelineList"></div>
         <button class="reveal-more" id="timelineToggle">Afficher tout <i class="ph ph-caret-down"></i></button>
       </div>
@@ -301,7 +406,7 @@
       <div class="about-bio reveal">
         <p><strong>Bonjour, je suis Damiti.</strong> Ce qui me différencie ? Je ne code pas juste pour que ça marche, je code pour que ce soit <strong>beau, rapide et compréhensible</strong> par n'importe quel utilisateur.</p>
         <p>Je m'intéresse particulièrement aux projets de <strong>gestion</strong> et aux <strong>plateformes de service</strong> — là où l'UX fait réellement la différence. Je pars toujours d'une structure HTML sémantique, j'applique un CSS précis et maintenable, puis j'enrichis avec JavaScript uniquement là où c'est nécessaire.</p>
-        <p>Mon objectif immédiat : décrocher un <strong>stage en entreprise</strong> pour confronter mes compétences à des projets réels et progresser sur <strong>React.js, Node.js et les outils pro</strong>.</p>
+        <p>Je suis actuellement en <strong>stage chez ATG</strong> comme développeur front-end : je construis les interfaces des applications de l'équipe et je touche aussi au <strong>back-end</strong> (API, base de données). J'y progresse chaque jour sur <strong>React.js, Node.js et les outils pro</strong>.</p>
       </div>
 
       <div class="about-certs reveal">
@@ -352,11 +457,15 @@
 <!-- ══════════════════════ FAQ ══════════════════════ -->
 <section class="section-faq" id="faq">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow"><i class="ph-bold ph-question"></i>Questions fréquentes</span>
-      <h2 class="section-title">Vos questions, <em>mes réponses.</em></h2>
+    <div class="faq-grid">
+      <div class="faq-side reveal">
+        <span class="eyebrow"><i class="ph-bold ph-question"></i>Questions fréquentes</span>
+        <h2 class="section-title">Vos questions, <em>mes réponses.</em></h2>
+        <p class="faq-side-desc">Tout ce qu'il faut savoir avant de démarrer un projet ensemble.</p>
+        <p class="faq-side-contact">Vous ne trouvez pas votre réponse&nbsp;? Écrivez-moi directement sur <a href="https://wa.me/2250713188565" target="_blank" rel="noopener noreferrer" class="faq-side-link">WhatsApp</a>.</p>
+      </div>
+      <div class="faq-list reveal" id="faqList"></div>
     </div>
-    <div class="faq-list reveal" id="faqList"></div>
   </div>
 </section>
 
@@ -443,6 +552,7 @@
   </footer>
 </div>
 
+<script src="./works-wheel.js"></script>
 <script src="./script.js"></script>
 </body>
 </html>

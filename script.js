@@ -52,9 +52,18 @@ const SERVICES = [
   { icon:'ph-whatsapp-logo', name:'Boutique WhatsApp sans Serveur', desc:"Recevez les commandes directement sur WhatsApp. Catalogue en ligne, panier automatique, e-commerce léger et gratuit." },
 ];
 
-const TIMELINE = [
-  { date:'2025–2026', role:'Licence 3 — En cours', place:'ITA 2 Plateaux · Abidjan · React.js, Node.js, API, sécurité web' },
-  { date:'2023–2025', role:'Licence 1 & 2 Informatique', place:'ITA 2 Plateaux · Abidjan · HTML/CSS/JS, PHP, MySQL, algo' },
+const EXPERIENCE = [
+  { date:"05/2026 — aujourd'hui", role:'Développeur Web Front-end — Stage', place:'ATG · en cours',
+    desc:"Développement des interfaces des applications de l'entreprise, en équipe, avec des contributions côté back-end (API, base de données)." },
+  { date:"2023 — aujourd'hui", role:'Développeur Web', place:'Projets académiques & personnels',
+    desc:"Sites vitrines, boutiques en ligne et applications de gestion : front-end HTML/CSS/JS et React, back-end PHP / MySQL." },
+];
+
+const FORMATION = [
+  { date:'2025–2026', role:'Licence 3 Sciences Informatiques', place:'ITA 2 Plateaux · Abidjan',
+    desc:"React.js, Node.js, conception d'API et sécurité web." },
+  { date:'2023–2025', role:'Licence 1 & 2 Informatique', place:'ITA 2 Plateaux · Abidjan',
+    desc:'Front-end (HTML5, CSS3, JavaScript), back-end PHP / MySQL et algorithmique.' },
   { date:'2023', role:'Baccalauréat série D', place:"Collège Les Orchidées · Abidjan", hidden:true },
 ];
 
@@ -66,6 +75,86 @@ const FAQ = [
   { q:"Comment se passe la communication pendant le projet ?", a:"Par email ou WhatsApp, avec des points d'étape réguliers pour que vous suiviez l'avancement sans surprise à la livraison." },
 ];
 
+/* ── LETTRES DANSANTES (portage natif de "DancingLetters") ──
+   Chaque lettre du mot réagit au survol (ou au toucher) avec l'une des 8
+   animations physiques de l'original, attribuées en boucle : élastique,
+   charnière, saut écrasé, bascule, glissade, secousse, pop, lévitation.
+   Les tableaux de valeurs de motion/react sont convertis en keyframes de
+   la Web Animations API : chaque propriété a ses propres paliers, on les
+   fusionne en une seule timeline par interpolation linéaire. ── */
+const DANCE_MOVES = [
+  { props:{ scaleX:[1,1.25,.75,1.15,.95,1.05,1], scaleY:[1,.75,1.25,.85,1.05,.95,1] }, duration:800, ease:'ease-in-out', origin:'center center' },
+  { props:{ rotate:[0,80,60,80,60,0], y:[0,10,-5,5,-2,0] }, duration:1200, ease:'cubic-bezier(.175,.885,.32,1.275)', origin:'bottom left' },
+  { props:{ scaleY:[1,.6,1.2,1], y:[0,20,-40,0] }, duration:600, ease:'ease-out', origin:'bottom center' },
+  { props:{ rotateX:[0,240,150,200,175,180,180,0], scale:[1,1.1,1] }, duration:2000, ease:'ease-out', origin:'50% 80%',
+    times:{ rotateX:[0,.12,.24,.36,.48,.6,.85,1] } },
+  { props:{ x:[0,-20,15,-10,5,0] }, duration:800, ease:'ease-in-out', origin:'center center' },
+  { props:{ x:[0,-5,5,-5,5,-2,2,0], y:[0,-2,2,-1,1,0], rotate:[0,-1,1,-.5,.5,0] }, duration:500, ease:'linear', origin:'center center' },
+  { props:{ scale:[1,1.4,1] }, duration:500, ease:'ease-in-out', origin:'center center' },
+  { props:{ y:[0,-30,0], scale:[1,1.1,1] }, duration:1200, ease:'ease-in-out', origin:'center center',
+    shadow:['0 0 0 rgba(0,0,0,0)', '0 20px 20px rgba(0,0,0,.45)', '0 0 0 rgba(0,0,0,0)'] },
+];
+const DANCE_DEFAULTS = { x:0, y:0, rotate:0, rotateX:0, scale:1, scaleX:1, scaleY:1 };
+
+/** Fusionne les paliers de chaque propriété en une liste de keyframes transform. */
+function buildDanceKeyframes({ props, times = {}, ease }){
+  const tracks = Object.entries(props).map(([name, values]) => ({
+    name, values,
+    offsets: times[name] ?? values.map((_, i) => i / (values.length - 1)),
+  }));
+  const offsets = [...new Set(tracks.flatMap(t => t.offsets))].sort((a, b) => a - b);
+  const valueAt = ({ values, offsets: o }, t) => {
+    let i = o.findIndex(v => v >= t);
+    if (i <= 0) return values[Math.max(i, 0)];
+    const k = (t - o[i - 1]) / (o[i] - o[i - 1] || 1);
+    return values[i - 1] + (values[i] - values[i - 1]) * k;
+  };
+  return offsets.map(offset => {
+    const v = { ...DANCE_DEFAULTS };
+    tracks.forEach(t => { v[t.name] = valueAt(t, offset); });
+    return {
+      offset, easing:ease,
+      transform:`translate(${v.x}px, ${v.y}px) rotate(${v.rotate}deg) rotateX(${v.rotateX}deg) scale(${v.scale * v.scaleX}, ${v.scale * v.scaleY})`,
+    };
+  });
+}
+
+function initDancingLetters(word){
+  if (!word) return null;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const text = word.textContent.trim();
+  word.textContent = '';
+  const letters = [...text].map((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'dance-letter' + (ch === '.' ? ' is-dot' : '');
+    span.textContent = ch;
+    span.setAttribute('aria-hidden', 'true');
+    span.style.setProperty('--i', i);
+    word.append(span);
+    return span;
+  });
+
+  const busy = new Set();
+  const dance = (i) => {
+    if (still || busy.has(i) || !letters[i].animate) return;
+    const move = DANCE_MOVES[i % DANCE_MOVES.length];
+    const el = letters[i];
+    busy.add(i);
+    el.style.transformOrigin = move.origin;
+    el.classList.add('is-active');
+    const anim = el.animate(buildDanceKeyframes(move), { duration:move.duration });
+    if (move.shadow) el.animate(move.shadow.map(s => ({ textShadow:s })), { duration:move.duration, easing:move.ease });
+    anim.finished.catch(() => {}).finally(() => { busy.delete(i); el.classList.remove('is-active'); });
+  };
+
+  letters.forEach((el, i) => {
+    el.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') dance(i); });
+    el.addEventListener('click', () => dance(i));
+  });
+}
+
+initDancingLetters(document.querySelector('.dance-word'));
+
 /* ── injection contenu dynamique ──
    Tout le reste du fichier (rendu, navigation, animations) est regroupé
    dans initPortfolio() et n'est exécuté qu'une fois les projets chargés
@@ -74,41 +163,38 @@ const FAQ = [
    déjà dans le DOM. ── */
 function initPortfolio(projects, projectsMore) {
 
-function mkImg(src, alt){ return `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">`; }
 
-document.getElementById('projFeatured').innerHTML = projects.map(p => `
-  <article class="proj-feature reveal">
-    <div class="proj-media"><span class="proj-year">${p.year || ''}</span>${mkImg(p.src, p.title)}</div>
-    <div class="proj-info">
-      <h3>${p.title}</h3>
-      <p>${p.desc || ''}</p>
-      <div class="proj-tags">${(p.tech || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      <a href="${p.href}" target="_blank" rel="noopener noreferrer" class="proj-link">Voir le projet <i class="ph ph-arrow-up-right"></i></a>
-    </div>
-  </article>`).join('');
+// Projets : roue "works wheel" (voir works-wheel.js). Les projets mis en
+// avant passent en premier, suivis des autres.
+const worksWheel = window.WorksWheel?.mount(
+  document.getElementById('worksWheel'),
+  [...projects, ...projectsMore],
+  { moreHref:'https://github.com/ouattaradamitidev-prog', fallbackImg:FALLBACK_IMG }
+);
 
-document.getElementById('projMore').innerHTML = projectsMore.map(p => `
-  <div class="proj-mini reveal">
-    <div class="proj-mini-media">${mkImg(p.src, p.title)}</div>
-    <div class="proj-mini-body">
-      <h4>${p.title}</h4>
-      <a href="${p.href}" target="_blank" rel="noopener noreferrer">Voir le projet <i class="ph ph-arrow-up-right"></i></a>
-    </div>
-  </div>`).join('');
-
+// Services : une étape par service sur la frise, alternées au-dessus et
+// en dessous de l'axe (voir initServiceJourney plus bas).
 document.getElementById('servicesList').innerHTML = SERVICES.map((s,i) => `
-  <div class="service-row reveal">
-    <div class="service-num">${String(i+1).padStart(2,'0')}</div>
-    <div class="service-name"><i class="ph-bold ${s.icon}"></i>${s.name}</div>
-    <p class="service-desc">${s.desc}</p>
-  </div>`).join('');
+  <li class="svc-item ${i % 2 ? 'svc-bottom' : 'svc-top'}" style="--i:${i}">
+    <span class="svc-stem" aria-hidden="true"></span><span class="svc-dot" aria-hidden="true"></span>
+    <div class="svc-body">
+      <span class="svc-mask"><span class="svc-num"><i class="ph-bold ${s.icon}" aria-hidden="true"></i>${String(i+1).padStart(2,'0')}</span></span>
+      <h3 class="svc-mask"><span>${s.name}</span></h3>
+      <p class="svc-mask"><span>${s.desc}</span></p>
+    </div>
+  </li>`).join('');
 
-const timelineEl = document.getElementById('timelineList');
-timelineEl.innerHTML = TIMELINE.map(t => `
+const renderTimeline = items => items.map(t => `
   <div class="timeline-item ${t.hidden ? 'timeline-hidden' : ''}">
     <div class="timeline-date">${t.date}</div>
-    <div><div class="timeline-role">${t.role}</div><div class="timeline-place">${t.place}</div></div>
+    <div>
+      <div class="timeline-role">${t.role}</div><div class="timeline-place">${t.place}</div>
+      ${t.desc ? `<p class="timeline-desc">${t.desc}</p>` : ''}
+    </div>
   </div>`).join('');
+document.getElementById('experienceList').innerHTML = renderTimeline(EXPERIENCE);
+const timelineEl = document.getElementById('timelineList');
+timelineEl.innerHTML = renderTimeline(FORMATION);
 document.getElementById('timelineToggle').addEventListener('click', function(){
   const hidden = timelineEl.querySelectorAll('.timeline-hidden');
   const show = !hidden[0]?.classList.contains('show');
@@ -116,11 +202,19 @@ document.getElementById('timelineToggle').addEventListener('click', function(){
   this.innerHTML = show ? 'Réduire <i class="ph ph-caret-up"></i>' : 'Afficher tout <i class="ph ph-caret-down"></i>';
 });
 
+/* Découpe une réponse en <span> par caractère (Unicode-safe) pour l'effet
+   de révélation "flou → net" en cascade façon Ruixen UI, joué à chaque
+   ouverture de l'accordéon. */
+function wrapFaqChars(text){
+  return [...text].map(c => `<span class="faq-char">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+}
+
 document.getElementById('faqList').innerHTML = FAQ.map((f,i) => `
   <div class="faq-item">
     <button class="faq-q" aria-expanded="false"><span><span class="faq-num">${String(i+1).padStart(2,'0')}</span>${f.q}</span><i class="ph ph-plus"></i></button>
-    <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>
+    <div class="faq-a"><div class="faq-a-inner">${wrapFaqChars(f.a)}</div></div>
   </div>`).join('');
+
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.closest('.faq-item');
@@ -132,6 +226,19 @@ document.querySelectorAll('.faq-q').forEach(btn => {
     item.classList.toggle('open', !isOpen);
     btn.setAttribute('aria-expanded', String(!isOpen));
     answer.style.maxHeight = !isOpen ? answer.scrollHeight + 'px' : null;
+
+    if (!isOpen) {
+      const chars = answer.querySelectorAll('.faq-char');
+      if (reduceMotion) {
+        gsap.set(chars, { clearProps:'all' });
+      } else {
+        gsap.killTweensOf(chars);
+        gsap.fromTo(chars,
+          { opacity:0, filter:'blur(10px)' },
+          { opacity:1, filter:'blur(0px)', duration:.3, stagger:.012, ease:'power1.out', delay:.08 }
+        );
+      }
+    }
   });
 });
 
@@ -143,9 +250,12 @@ let lastScrollY = window.scrollY;
 let scrollYOnCollapse = 0;
 const isDesktopNav = () => window.innerWidth > 900;
 
+const navCollapsedBtn = nav.querySelector('.nav-collapsed-icon');
 function setNavExpanded(expanded){
   isExpanded = expanded;
   nav.classList.toggle('collapsed', !expanded);
+  // le bouton "damel." n'est atteignable au clavier que quand la pilule est réduite
+  navCollapsedBtn.tabIndex = expanded ? -1 : 0;
 }
 
 window.addEventListener('scroll', () => {
@@ -173,14 +283,99 @@ window.addEventListener('resize', () => { if (!isDesktopNav() && !isExpanded) se
 
 const navLinks = document.getElementById('navLinks');
 const navToggle = document.getElementById('navToggle');
+// Menu mobile : tiroir latéral. Le scroll de la page est bloqué tant qu'il
+// est ouvert ; il se ferme via un lien, un clic à côté, Échap ou un passage
+// en largeur desktop.
+function setMenuOpen(open){
+  navLinks.classList.toggle('open', open);
+  navToggle.innerHTML = open ? '<i class="ph ph-x"></i>' : '<i class="ph ph-list"></i>';
+  navToggle.setAttribute('aria-expanded', String(open));
+  navToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  document.documentElement.style.overflow = open ? 'hidden' : '';
+  if (window.__lenis) open ? window.__lenis.stop() : window.__lenis.start();
+}
+navToggle.setAttribute('aria-controls', 'navLinks');
+navToggle.setAttribute('aria-expanded', 'false');
 navToggle.addEventListener('click', (e) => {
   e.stopPropagation();
-  const open = navLinks.classList.toggle('open');
-  navToggle.innerHTML = open ? '<i class="ph ph-x"></i>' : '<i class="ph ph-list"></i>';
+  setMenuOpen(!navLinks.classList.contains('open'));
 });
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navLinks.classList.remove('open'); navToggle.innerHTML = '<i class="ph ph-list"></i>';
-}));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
+document.addEventListener('click', (e) => {
+  if (navLinks.classList.contains('open') && !navLinks.contains(e.target)) setMenuOpen(false);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks.classList.contains('open')) { setMenuOpen(false); navToggle.focus(); }
+});
+window.addEventListener('resize', () => { if (isDesktopNav() && navLinks.classList.contains('open')) setMenuOpen(false); });
+
+/* ── OUTILS : infobulle animée (AnimatedTooltip) ──
+   Au survol d'un logo, l'infobulle s'incline et glisse selon la position de
+   la souris : x (-100 → 100 px autour du centre) donne une rotation de
+   -45° → 45° et un décalage de -50 → 50 px, lissés par un ressort
+   (raideur 100, amortissement 5, comme useSpring dans l'original).
+   Sur écran tactile, un appui ouvre / ferme l'infobulle. ── */
+(function initToolTooltips(){
+  const items = document.querySelectorAll('.tt-item');
+  if (!items.length) return;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const K = 100, C = 5;
+
+  let tip = null, target = 0, pos = 0, vel = 0, raf = 0, last = 0;
+  const write = () => {
+    if (tip) tip.style.transform = `translateX(${pos * 0.5}px) rotate(${pos * 0.45}deg)`;
+  };
+  const step = (now) => {
+    const dt = Math.min((now - last) / 1000, 1 / 30);
+    last = now;
+    vel += (K * (target - pos) - C * vel) * dt;
+    pos += vel * dt;
+    const settled = Math.abs(target - pos) < 0.05 && Math.abs(vel) < 0.05;
+    if (settled) pos = target;
+    write();
+    raf = settled ? 0 : requestAnimationFrame(step);
+  };
+  const kick = () => {
+    if (raf || still) return;
+    last = performance.now();
+    raf = requestAnimationFrame(step);
+  };
+
+  const open = (item) => {
+    const next = item.querySelector('.tt-tip');
+    if (tip && tip !== next) tip.style.transform = '';
+    tip = next;
+    target = pos = vel = 0;
+    write();
+  };
+  const close = (item) => {
+    item.classList.remove('is-open');
+    if (tip === item.querySelector('.tt-tip')) { target = 0; kick(); }
+  };
+
+  items.forEach((item) => {
+    item.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') open(item); });
+    item.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch' || still) return;
+      const r = item.querySelector('.tt-avatar').getBoundingClientRect();
+      target = clamp(e.clientX - r.left - r.width / 2, -100, 100);
+      kick();
+    });
+    item.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch') close(item); });
+    item.addEventListener('focus', () => open(item));
+    // tactile : un appui ouvre l'infobulle de ce logo et ferme les autres
+    item.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'touch') return;
+      const wasOpen = item.classList.contains('is-open');
+      items.forEach((other) => other.classList.remove('is-open'));
+      if (!wasOpen) { open(item); item.classList.add('is-open'); }
+    });
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!e.target.closest('.tt-item')) items.forEach((item) => item.classList.remove('is-open'));
+  });
+})();
 
 /* ── PROCESSUS : timeline orbitale ── */
 (function initOrbitalTimeline(){
@@ -286,16 +481,6 @@ document.getElementById('footerToTop')?.addEventListener('click', () => {
   else window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
 });
 
-/* données du scroll-scatter — un card par image, du fond (z bas) vers le premier plan */
-const SCATTER_CARDS = [
-  { sel:'[data-card="1"]', stackOffset:{x:-8,y:-10},  stackRotate:-18, target:{x:-20,y:-34,scale:.9,w:17,h:22} },
-  { sel:'[data-card="2"]', stackOffset:{x:14,y:-10},  stackRotate:20,  target:{x:32, y:-30,scale:.8,w:18,h:32} },
-  { sel:'[data-card="4"]', stackOffset:{x:1,  y:-10},  stackRotate:-2, target:{x:6,  y:-32,scale:.8,w:25,h:30} },
-  { sel:'[data-card="5"]', stackOffset:{x:18, y:1},    stackRotate:6,  target:{x:37, y:6,  scale:.8,w:18,h:32} },
-  { sel:'[data-card="6"]', stackOffset:{x:-6, y:10},   stackRotate:6,  target:{x:-24,y:34, scale:.9,w:22,h:25} },
-  { sel:'[data-card="8"]', stackOffset:{x:20, y:12},   stackRotate:-7, target:{x:30, y:34, scale:1, w:16,h:20} },
-];
-const SCATTER_START = .12, SCATTER_END = .9;
 
 /* ── Glyph Portal : caméra de scroll à travers une lettre ──
    Adapté du composant open-source Glyph Portal (MIT)
@@ -483,20 +668,6 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
   if (reduceMotion) {
     document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
     document.querySelectorAll('.reveal-footer').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
-    // scatter : on saute l'animation, on affiche direct la composition finale
-    const scatterWrap = document.getElementById('scatterCards');
-    if (scatterWrap) {
-      SCATTER_CARDS.forEach(c => {
-        const el = scatterWrap.querySelector(c.sel);
-        if (!el) return;
-        el.style.width = `${c.target.w}vw`;
-        el.style.height = `${c.target.h}vh`;
-        el.style.transform = `translate(calc(-50% + ${c.target.x}vw), calc(-50% + ${c.target.y}vh)) scale(${c.target.scale})`;
-      });
-      document.querySelector('.scatter-copy').style.opacity = 1;
-      const hint = document.getElementById('scatterHint');
-      if (hint) hint.style.display = 'none';
-    }
     return;
   }
 
@@ -512,6 +683,7 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
   if (typeof Lenis !== 'undefined') {
     const lenis = new Lenis({ duration: 1.15, easing: t => 1 - Math.pow(1 - t, 3), anchors: true });
     window.__lenis = lenis;
+    if (document.documentElement.classList.contains('is-loading')) lenis.stop();
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -590,22 +762,11 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
     });
   });
 
-  // Images de projets : léger zoom-révélation à l'entrée dans le viewport
-  // (clearProps rend la main au :hover CSS une fois l'animation terminée)
-  document.querySelectorAll('.proj-media img, .proj-mini-media img').forEach(img => {
-    gsap.fromTo(img, { scale:1.18 }, {
-      scale:1, duration:1.1, ease:'power3.out', clearProps:'scale',
-      scrollTrigger:{ trigger: img.closest('.proj-media, .proj-mini-media'), start:'top 92%' }
-    });
-  });
-
-  // Grilles avec stagger (cartes projets, process, services)
-  ['#projFeatured .proj-feature','#projMore .proj-mini','#servicesList .service-row'].forEach(sel => {
-    const items = document.querySelectorAll(sel);
-    if (!items.length) return;
-    gsap.fromTo(items, { opacity:0, y:24 }, {
-      opacity:1, y:0, duration:.5, stagger:.08, ease:'power2.out',
-      scrollTrigger:{ trigger: items[0].closest('.container') || items[0], start:'top 85%' }
+  // Outils : dans chaque famille, les logos montent un par un avec un léger ressort.
+  document.querySelectorAll('.tt-row').forEach(row => {
+    gsap.fromTo(row.querySelectorAll('.tt-item'), { opacity:0, y:20 }, {
+      opacity:1, y:0, duration:.7, stagger:.07, ease:'back.out(1.6)', clearProps:'transform',
+      scrollTrigger:{ trigger:row, start:'top 90%', toggleActions:'play none none reverse' }
     });
   });
 
@@ -613,16 +774,13 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
   // légèrement après le précédent pour un effet "cascade" au scroll,
   // plutôt qu'un bloc entier qui apparaît d'un coup.
   [
-    { sel:'.tool-chip',    from:{ opacity:0, y:14, scale:.92 }, stagger:.045 },
-    { sel:'.integ-card',   from:{ opacity:0, y:20, scale:.9 },  stagger:.07  },
     { sel:'.gp-feature',   from:{ opacity:0, y:22 },            stagger:.12  },
     { sel:'.cert-row',     from:{ opacity:0, y:16 },            stagger:.1   },
     { sel:'.timeline-item',from:{ opacity:0, x:-16 },           stagger:.09  },
-    { sel:'.proj-tags .tag', from:{ opacity:0, y:8 },           stagger:.04  },
   ].forEach(({ sel, from, stagger }) => {
     const groups = new Map();
     document.querySelectorAll(sel).forEach(el => {
-      const container = el.closest('.tools-row, .integrations-cluster, .gp-features, .about-certs, .timeline, .proj-tags') || el.parentElement;
+      const container = el.closest('.gp-features, .about-certs, .timeline') || el.parentElement;
       if (!groups.has(container)) groups.set(container, []);
       groups.get(container).push(el);
     });
@@ -644,12 +802,13 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
     });
   }
 
-  // Barre d'intégration (le pilier central "D.") : légère rotation d'entrée
-  const integCenter = document.querySelector('.integ-card.is-center');
-  if (integCenter) {
-    gsap.fromTo(integCenter, { opacity:0, rotate:-8, scale:.85 }, {
-      opacity:1, rotate:0, scale:1, duration:.6, ease:'back.out(1.7)',
-      scrollTrigger:{ trigger:integCenter, start:'top 90%', toggleActions:'play none none reverse' }
+  // Damier des canaux : les tuiles apparaissent en cascade depuis le centre.
+  const intTiles = document.querySelectorAll('.int-tile');
+  if (intTiles.length) {
+    gsap.fromTo(intTiles, { opacity:0, y:20, scale:.9 }, {
+      opacity:1, y:0, scale:1, duration:.55, ease:'back.out(1.5)', clearProps:'transform',
+      stagger:{ each:.05, from:'center' },
+      scrollTrigger:{ trigger:'.int-board', start:'top 85%', toggleActions:'play none none reverse' }
     });
   }
 
@@ -703,51 +862,58 @@ document.fonts.ready.then(initGlyphPortal).catch(initGlyphPortal);
     heroGlowSection.addEventListener('mouseleave', () => gsap.to(glow, { opacity:0, duration:.4 }));
   }
 
-  // Scroll scatter : pin + scrub sur desktop/tablette large, grille statique en dessous de 768px (voir CSS)
-  ScrollTrigger.matchMedia({
-    "(min-width: 769px)": function () {
-      const stage = document.getElementById('scatterStage');
-      const cardsWrap = document.getElementById('scatterCards');
-      if (!stage || !cardsWrap) return;
-
-      const cards = SCATTER_CARDS.map(c => ({ ...c, el: cardsWrap.querySelector(c.sel) })).filter(c => c.el);
-
-      cards.forEach(c => {
-        gsap.set(c.el, {
-          width: `${c.target.w}vw`, height: `${c.target.h}vh`,
-          xPercent: -50, yPercent: -50,
-          x: `${c.stackOffset.x}vw`, y: `${c.stackOffset.y}vh`,
-          rotation: c.stackRotate, scale: .82,
-        });
-      });
-
-      const stagePin = stage.querySelector('.scatter-pin');
-      if (stagePin) gsap.set(stagePin, { position: 'relative' });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: stage, start: 'top top', end: '+=200%',
-          scrub: 1, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-        }
-      });
-
-      cards.forEach(c => {
-        tl.to(c.el, {
-          x: `${c.target.x}vw`, y: `${c.target.y}vh`,
-          rotation: 0, scale: c.target.scale, ease: 'none',
-          duration: SCATTER_END - SCATTER_START,
-        }, SCATTER_START);
-      });
-
-      tl.to('.scatter-copy', { opacity: 1, ease: 'none', duration: .35 }, .3);
-      tl.to('#scatterHint', { opacity: 0, ease: 'none', duration: SCATTER_START }, 0);
-
-      return () => tl.kill();
-    }
-  });
-
   ScrollTrigger.refresh();
 })();
+
+// La roue est reliée au scroll après initMotion (ses épinglages doivent être
+// créés après les animations de la page), y compris en
+// mouvement réduit : c'est le visiteur qui la fait tourner, rien n'est joué
+// automatiquement.
+if (typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+  worksWheel?.bindScroll(ScrollTrigger, window.__lenis);
+  initServiceJourney();
+  ScrollTrigger.refresh();
+}
+
+/* Frise des services (portage natif du composant "Timeline" de Hyperiux) :
+   la section est épinglée et la piste glisse vers la gauche au scroll.
+   L'axe se trace au fil du défilement, et chaque service fait pousser sa
+   tige, apparaître son point, puis dévoile son texte ligne par ligne quand
+   il arrive au milieu de l'écran. Sans animation (mouvement réduit ou GSAP
+   absent), la piste reste simplement défilable à l'horizontale. */
+function initServiceJourney(){
+  const section = document.querySelector('.svc-journey');
+  if (!section || reduceMotion) return;
+  const viewport = section.querySelector('.svc-viewport');
+  const track = section.querySelector('.svc-track');
+  section.classList.add('is-live');
+
+  const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+  const pan = gsap.to(track, {
+    x: () => -distance(), ease:'none',
+    scrollTrigger:{
+      trigger:section, start:'top top', end:() => `+=${distance()}`,
+      pin:true, scrub:1, anticipatePin:1, invalidateOnRefresh:true,
+    },
+  });
+
+  // L'axe se remplit dès que le rail passe 60 % de l'écran, et se termine
+  // quand sa fin entre à l'écran : il est donc complet avant la fin du défilé.
+  gsap.fromTo(section.querySelector('.svc-axis-line'), { scaleX:0 }, {
+    scaleX:1, ease:'none',
+    scrollTrigger:{ trigger:section.querySelector('.svc-rail'), containerAnimation:pan, start:'left 60%', end:'right 100%', scrub:true },
+  });
+
+  section.querySelectorAll('.svc-item').forEach(item => {
+    gsap.timeline({
+      scrollTrigger:{ trigger:item, containerAnimation:pan, start:'left 85%', end:'left 55%', scrub:true },
+    })
+      .fromTo(item.querySelector('.svc-stem'), { scaleY:0 }, { scaleY:1, ease:'none', duration:.4 })
+      .fromTo(item.querySelector('.svc-dot'), { scale:0 }, { scale:1, ease:'none', duration:.4 }, '<')
+      .fromTo(item.querySelectorAll('.svc-mask > span'), { yPercent:110 }, { yPercent:0, ease:'power2.out', duration:1, stagger:.12 }, '-=.2');
+  });
+}
 
 } /* fin initPortfolio() */
 
