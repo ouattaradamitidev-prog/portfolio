@@ -29,7 +29,7 @@ if (BACKEND_URL && !BACKEND_URL.includes('TON-SERVICE')) {
    par le backend Django à chaque ajout/modification depuis l'admin. ── */
 const PROJECTS_FALLBACK = [
   { src:'./image/gestion-financiere.png', href:'https://gestion-finance.infinityfreeapp.com', title:'Gestion Financière', desc:"App complète avec tableau de bord admin, suivi des transactions, notifications temps réel et génération de reçus PDF.", tech:['PHP','MySQL','Tailwind','API REST'], year:'2026' },
-  { src:'./image/MIEL.jpeg', href:'https://app-boutique-miel.netlify.app', title:'BON MIEL', desc:"Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp — sans serveur.", tech:['HTML5','CSS3','JavaScript','LocalStorage'], year:'2024' },
+  { src:'./image/MIEL.jpeg', href:'https://app-boutique-miel.netlify.app', title:'BON MIEL', desc:"Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp, sans serveur.", tech:['HTML5','CSS3','JavaScript','LocalStorage'], year:'2024' },
   { src:'./image/BOUFFE.jpeg', href:'https://damitielieericouattara-rgb.github.io/restaurant/', title:'Dabalie De Babi', desc:"Plateforme street food ivoirienne : catalogue, panier, suivi de commande. Front JS + back PHP / MySQL.", tech:['HTML5','JavaScript','PHP','MySQL'], year:'2024' },
   { src:'https://btp-site.netlify.app/assets/images/features-1.jpg', href:'https://btp-site.netlify.app', title:'Y BTP Immobilier', desc:"Site vitrine BTP complet : planning, architecture, construction et aménagement intérieur. Galerie de projets filtrée.", tech:['HTML5','CSS3','JavaScript'], year:'2025' },
 ];
@@ -45,15 +45,15 @@ const FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/
 
 const SERVICES = [
   { icon:'ph-browser', name:'Site Vitrine & Landing Page', desc:"Votre première impression en ligne. Sites modernes, rapides et adaptés à tous les écrans pour inspirer confiance dès le premier regard." },
-  { icon:'ph-cursor-click', name:'Fonctionnalités Interactives', desc:"Formulaires intelligents, galeries animées, paniers d'achat — tout ce qui guide naturellement vos visiteurs vers l'action." },
+  { icon:'ph-cursor-click', name:'Fonctionnalités Interactives', desc:"Formulaires intelligents, galeries animées, paniers d'achat, tout ce qui guide naturellement vos visiteurs vers l'action." },
   { icon:'ph-atom', name:'Application Web React.js', desc:"Tableaux de bord, espaces clients, outils de gestion : des applications rapides, modernes et faciles à faire évoluer." },
-  { icon:'ph-database', name:'Site avec Gestion de Données', desc:"Réservations, catalogues, gestion d'utilisateurs — je construis le back-end complet de manière fiable et sécurisée." },
+  { icon:'ph-database', name:'Site avec Gestion de Données', desc:"Réservations, catalogues, gestion d'utilisateurs, je construis le back-end complet de manière fiable et sécurisée." },
   { icon:'ph-figma-logo', name:'Intégration UI & Design System', desc:"Une maquette Figma ? Je l'intègre avec précision : code propre, chargement rapide, rendu fidèle sur tous les écrans." },
   { icon:'ph-whatsapp-logo', name:'Boutique WhatsApp sans Serveur', desc:"Recevez les commandes directement sur WhatsApp. Catalogue en ligne, panier automatique, e-commerce léger et gratuit." },
 ];
 
 const EXPERIENCE = [
-  { date:"05/2026 — aujourd'hui", role:'Développeur Web Front-end — Stage', place:'ATG · en cours',
+  { date:"05/2026 — aujourd'hui", role:'Développeur Web Front-end, Stage', place:'ATG · en cours',
     desc:"Développement des interfaces des applications de l'entreprise, en équipe, avec des contributions côté back-end (API, base de données)." },
   { date:"2023 — aujourd'hui", role:'Développeur Web', place:'Projets académiques & personnels',
     desc:"Sites vitrines, boutiques en ligne et applications de gestion : front-end HTML/CSS/JS et React, back-end PHP / MySQL." },
@@ -70,7 +70,7 @@ const FORMATION = [
 const FAQ = [
   { q:"Combien de temps dure généralement un projet ?", a:"Un site vitrine simple prend en général 1 à 2 semaines. Une application avec back-end (gestion de données, panier, tableau de bord) demande plutôt 3 à 5 semaines. Je vous donne une estimation précise après notre premier échange." },
   { q:"Travaillez-vous à partir d'une maquette Figma existante ?", a:"Oui, c'est même l'un de mes points forts : intégrer une maquette Figma avec précision, en gardant un code propre et un rendu fidèle sur tous les écrans." },
-  { q:"Qu'est-ce qui différencie votre approche ?", a:"Je pars toujours d'une structure HTML sémantique avant d'ajouter le style, puis le comportement — le résultat est plus léger, plus accessible et plus facile à faire évoluer." },
+  { q:"Qu'est-ce qui différencie votre approche ?", a:"Je pars toujours d'une structure HTML sémantique avant d'ajouter le style, puis le comportement, le résultat est plus léger, plus accessible et plus facile à faire évoluer." },
   { q:"Proposez-vous un accompagnement après la livraison ?", a:"Oui, de petits ajustements et réponses à vos questions restent inclus après la mise en ligne. Pour un suivi plus long, on peut en discuter ensemble." },
   { q:"Comment se passe la communication pendant le projet ?", a:"Par email ou WhatsApp, avec des points d'étape réguliers pour que vous suiviez l'avancement sans surprise à la livraison." },
 ];
@@ -385,7 +385,7 @@ window.addEventListener('resize', () => { if (isDesktopNav() && navLinks.classLi
   const orbitalData = [
     { id:1, title:'Écoute',        date:'Étape 1', icon:'ph-ear',           status:'completed',    energy:100, content:"Je comprends vos besoins, vos objectifs et vos contraintes avant d'écrire la moindre ligne.", related:[2] },
     { id:2, title:'Conception',    date:'Étape 2', icon:'ph-pencil-line',   status:'completed',    energy:85,  content:"Structure, design et choix technologiques adaptés à votre projet.", related:[1,3] },
-    { id:3, title:'Développement', date:'Étape 3', icon:'ph-code',          status:'in-progress',  energy:60,  content:"Code propre, testé et responsive — livré dans les délais annoncés.", related:[2,4] },
+    { id:3, title:'Développement', date:'Étape 3', icon:'ph-code',          status:'in-progress',  energy:60,  content:"Code propre, testé et responsive, livré dans les délais annoncés.", related:[2,4] },
     { id:4, title:'Livraison',     date:'Étape 4', icon:'ph-rocket-launch', status:'pending',      energy:20,  content:"Mise en ligne et accompagnement pour bien démarrer.", related:[3] },
   ];
   const statusLabel = { completed:'Terminé', 'in-progress':'En cours', pending:'À venir' };
