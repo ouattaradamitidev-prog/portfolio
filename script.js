@@ -23,22 +23,23 @@ if (BACKEND_URL && !BACKEND_URL.includes('TON-SERVICE')) {
   } catch (e) { /* silencieux : le compteur n'est jamais bloquant */ }
 }
 
-/* ── alerte e-mail détaillée à chaque visite (via Web3Forms, gratuit) ──
-   La clé Web3Forms est faite pour être publique : elle permet seulement
-   d'écrire à l'adresse du compte. Un e-mail par session de navigation
-   (pas de spam au rechargement), rien en local ni pour les robots.
-   Localisation : 3 services interrogés en parallèle, le premier qui
-   répond gagne. Si le visiteur quitte la page avant la fin, l'alerte
-   part quand même (sendBeacon) avec ce qu'on a déjà. ── */
+/* ── alerte e-mail détaillée à chaque visite ─────────────────────────
+   1) Relais sur notre propre domaine (/api/bienvenue, fonction Vercel) :
+      les bloqueurs de pub ne le bloquent pas, et la localisation est
+      faite côté serveur. 2) Secours si le relais échoue (pas encore
+      configuré, panne) : Web3Forms depuis le navigateur, avec
+      localisation par IP. La clé Web3Forms est faite pour être publique.
+   Un e-mail par session de navigation, rien en local ni pour les robots. ── */
 const VISIT_MAIL_KEY = 'c477e384-482a-4348-aceb-d2968f6da2b4';
 (() => {
   try {
-    if (!VISIT_MAIL_KEY) return;
     if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:') return;
     if (/bot|crawl|spider|slurp|lighthouse|headless|preview/i.test(navigator.userAgent)) return;
     let alreadySent = false;
     try { alreadySent = !!sessionStorage.getItem('visit-mail-sent'); } catch (e) {}
     if (alreadySent) return;
+    const markSent = on => { try { on ? sessionStorage.setItem('visit-mail-sent', '1') : sessionStorage.removeItem('visit-mail-sent'); } catch (e) {} };
+    markSent(true);
 
     /* visiteur nouveau ou qui revient (mémorisé dans son navigateur) */
     let count = 1, first = new Date().toISOString();
@@ -49,79 +50,77 @@ const VISIT_MAIL_KEY = 'c477e384-482a-4348-aceb-d2968f6da2b4';
       localStorage.setItem('visit-first', first);
     } catch (e) {}
 
-    /* navigateur, système, appareil */
     const ua = navigator.userAgent;
-    const os = /Windows/i.test(ua) ? 'Windows' : /Android/i.test(ua) ? 'Android'
-      : /iPhone|iPad|iPod/i.test(ua) ? 'iOS' : /Mac OS/i.test(ua) ? 'macOS'
-      : /Linux/i.test(ua) ? 'Linux' : 'Inconnu';
-    const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera'
-      : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Chrome\//.test(ua) ? 'Chrome'
-      : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Inconnu';
-    const device = /iPad|Tablet/i.test(ua) ? 'Tablette' : /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Ordinateur';
-
-    /* provenance + paramètres de campagne (?utm_source=...) */
     const params = new URLSearchParams(location.search);
-    const utm = ['utm_source', 'utm_medium', 'utm_campaign']
-      .map(k => params.get(k) && `${k.replace('utm_', '')}=${params.get(k)}`).filter(Boolean).join(', ');
-    const when = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan', dateStyle: 'full', timeStyle: 'medium' });
-    const conn = navigator.connection && navigator.connection.effectiveType;
+    const info = {
+      count,
+      first: new Date(first).toLocaleDateString('fr-FR'),
+      device: /iPad|Tablet/i.test(ua) ? 'Tablette' : /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Ordinateur',
+      os: /Windows/i.test(ua) ? 'Windows' : /Android/i.test(ua) ? 'Android'
+        : /iPhone|iPad|iPod/i.test(ua) ? 'iOS' : /Mac OS/i.test(ua) ? 'macOS'
+        : /Linux/i.test(ua) ? 'Linux' : 'Inconnu',
+      browser: /Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera'
+        : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Chrome\//.test(ua) ? 'Chrome'
+        : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Inconnu',
+      referrer: document.referrer,
+      utm: ['utm_source', 'utm_medium', 'utm_campaign']
+        .map(k => params.get(k) && `${k.replace('utm_', '')}=${params.get(k)}`).filter(Boolean).join(', '),
+      page: location.href,
+      screen: `${screen.width}×${screen.height} (fenêtre ${innerWidth}×${innerHeight})`,
+      lang: navigator.language,
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      conn: (navigator.connection && navigator.connection.effectiveType) || '',
+    };
 
-    let sent = false;
-    const send = (geo, viaBeacon) => {
-      if (sent) return;
-      sent = true;
-      try { sessionStorage.setItem('visit-mail-sent', '1'); } catch (e) {}
+    /* 2) secours Web3Forms : localisation par IP depuis le navigateur */
+    const fallback = async () => {
+      const getJSON = url => fetch(url).then(r => { if (!r.ok) throw 0; return r.json(); });
+      const providers = [
+        getJSON('https://ipwho.is/').then(g => { if (!g.success) throw 0;
+          return { ip: g.ip, city: g.city, region: g.region, country: g.country, postal: g.postal, lat: g.latitude, lon: g.longitude, org: g.connection && (g.connection.isp || g.connection.org) }; }),
+        getJSON('https://get.geojs.io/v1/ip/geo.json').then(g =>
+          ({ ip: g.ip, city: g.city, region: g.region, country: g.country, lat: g.latitude, lon: g.longitude, org: g.organization_name })),
+      ];
+      const results = [];
+      providers.forEach((p, i) => p.then(g => { results[i] = g; }, () => {}));
+      await Promise.race([Promise.allSettled(providers), new Promise(r => setTimeout(r, 3000))]);
+      const geo = results.find(Boolean) || {};
       const lieu = [geo.city, geo.region, geo.country].filter(Boolean).join(', ') || 'Inconnue';
       const fields = {
         access_key: VISIT_MAIL_KEY,
-        subject: `👀 Visite portfolio : ${lieu} · ${device}${count > 1 ? ` (visite n°${count})` : ' (nouveau visiteur)'}`,
+        subject: `👀 Visite portfolio : ${lieu} · ${info.device}${count > 1 ? ` (visite n°${count})` : ' (nouveau visiteur)'}`,
         from_name: 'Portfolio DAMEL',
-        '🕒 Date': when,
-        '👤 Visiteur': count > 1 ? `Revient (visite n°${count}, 1re visite le ${new Date(first).toLocaleDateString('fr-FR')})` : 'Nouveau visiteur',
+        '🕒 Date': new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan', dateStyle: 'full', timeStyle: 'medium' }),
+        '👤 Visiteur': count > 1 ? `Revient (visite n°${count}, 1re visite le ${info.first})` : 'Nouveau visiteur',
         '📍 Localisation': lieu + (geo.postal ? ` (${geo.postal})` : ''),
         '🗺️ Carte': geo.lat != null ? `https://www.google.com/maps?q=${geo.lat},${geo.lon}` : 'Indisponible',
         '🌐 Adresse IP': geo.ip || 'Inconnue',
         '📶 Opérateur': geo.org || 'Inconnu',
-        '🔗 Provenance': document.referrer || 'Accès direct (lien tapé, favori ou appli)',
-        '📣 Campagne': utm || 'Aucune',
-        '📄 Page': location.href,
-        '💻 Appareil': `${device} · ${os} · ${browser}`,
-        '🖥️ Écran': `${screen.width}×${screen.height} (fenêtre ${innerWidth}×${innerHeight})`,
-        '🗣️ Langue': navigator.language,
-        '⏰ Fuseau horaire': Intl.DateTimeFormat().resolvedOptions().timeZone,
-        '📡 Connexion': conn || 'Inconnue',
+        '🔗 Provenance': info.referrer || 'Accès direct (lien tapé, favori ou appli)',
+        '📣 Campagne': info.utm || 'Aucune',
+        '📄 Page': info.page,
+        '💻 Appareil': `${info.device} · ${info.os} · ${info.browser}`,
+        '🖥️ Écran': info.screen,
+        '🗣️ Langue': info.lang,
+        '⏰ Fuseau horaire': info.tz,
+        '📡 Connexion': info.conn || 'Inconnue',
         '🧾 User-Agent': ua,
       };
       const form = new FormData();
       Object.entries(fields).forEach(([k, v]) => form.append(k, v));
-      if (viaBeacon && navigator.sendBeacon && navigator.sendBeacon('https://api.web3forms.com/submit', form)) return;
-      fetch('https://api.web3forms.com/submit', { method: 'POST', body: form, keepalive: true })
-        .then(r => { if (!r.ok) throw 0; })
-        .catch(() => { try { sessionStorage.removeItem('visit-mail-sent'); } catch (e) {} });
+      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: form, keepalive: true });
+      if (!r.ok) throw 0;
     };
 
-    /* si le visiteur quitte la page avant la localisation : envoi immédiat */
-    let geoSoFar = {};
-    const onLeave = () => { if (document.visibilityState === 'hidden') send(geoSoFar, true); };
-    document.addEventListener('visibilitychange', onLeave);
-    addEventListener('pagehide', () => send(geoSoFar, true));
-
-    /* localisation par IP : 3 services en parallèle (3 s max), par ordre
-       de précision constatée : ipwho.is, puis geojs, puis ipapi */
-    const getJSON = url => fetch(url).then(r => { if (!r.ok) throw 0; return r.json(); });
-    const providers = [
-      getJSON('https://ipwho.is/').then(g => { if (!g.success) throw 0;
-        return { ip: g.ip, city: g.city, region: g.region, country: g.country, postal: g.postal, lat: g.latitude, lon: g.longitude, org: g.connection && (g.connection.isp || g.connection.org) }; }),
-      getJSON('https://get.geojs.io/v1/ip/geo.json').then(g => {
-        return { ip: g.ip, city: g.city, region: g.region, country: g.country, lat: g.latitude, lon: g.longitude, org: g.organization_name }; }),
-      getJSON('https://ipapi.co/json/').then(g => { if (g.error) throw 0;
-        return { ip: g.ip, city: g.city, region: g.region, country: g.country_name, postal: g.postal, lat: g.latitude, lon: g.longitude, org: g.org }; }),
-    ];
-    const results = [];
-    const pick = () => results.find(Boolean) || {};
-    providers.forEach((p, i) => p.then(g => { results[i] = g; geoSoFar = pick(); }, () => {}));
-    const timeout = new Promise(res => setTimeout(res, 3000));
-    Promise.race([Promise.allSettled(providers), timeout]).then(() => send(pick(), false));
+    /* 1) relais sur notre domaine, envoyé tout de suite */
+    fetch('/api/bienvenue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(info),
+      keepalive: true,
+    })
+      .then(r => { if (!r.ok) throw 0; })
+      .catch(() => fallback().catch(() => markSent(false)));
   } catch (e) { /* silencieux : l'alerte n'est jamais bloquante */ }
 })();
 
