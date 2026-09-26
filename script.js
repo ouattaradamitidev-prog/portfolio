@@ -23,6 +23,33 @@ if (BACKEND_URL && !BACKEND_URL.includes('TON-SERVICE')) {
   } catch (e) { /* silencieux : le compteur n'est jamais bloquant */ }
 }
 
+/* ── alerte WhatsApp à chaque visite (via CallMeBot, gratuit) ────────
+   Activation : envoie « I allow callmebot to send me messages » au
+   +34 644 51 95 23 sur WhatsApp, puis colle la clé reçue ci-dessous.
+   Une seule alerte par session de navigation (pas de spam au
+   rechargement), et rien n'est envoyé en local ni pour les robots. ── */
+const WA_PHONE  = '+2250713188565';
+const WA_APIKEY = 'TA-CLE-CALLMEBOT';
+(() => {
+  try {
+    if (!WA_APIKEY || WA_APIKEY.includes('TA-CLE')) return;
+    if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:') return;
+    if (/bot|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent)) return;
+    if (sessionStorage.getItem('wa-visit-sent')) return;
+    sessionStorage.setItem('wa-visit-sent', '1');
+
+    const ua = navigator.userAgent;
+    const device = /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Ordinateur';
+    const ref = document.referrer ? new URL(document.referrer).hostname : 'accès direct';
+    const when = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' });
+    const text = `👀 Nouvelle visite sur ton portfolio\n🕒 ${when}\n📱 ${device}\n🔗 Provenance : ${ref}\n🌐 Langue : ${navigator.language}`;
+
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(WA_PHONE)}`
+      + `&text=${encodeURIComponent(text)}&apikey=${encodeURIComponent(WA_APIKEY)}`;
+    fetch(url, { mode: 'no-cors', keepalive: true }).catch(() => {});
+  } catch (e) { /* silencieux : l'alerte n'est jamais bloquante */ }
+})();
+
 /* ── données de SECOURS uniquement (si data/projects.json est injoignable :
    ouverture locale du fichier, coupure réseau...). En temps normal, les
    projets affichés viennent de data/projects.json, régénéré automatiquement
