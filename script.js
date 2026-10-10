@@ -171,7 +171,7 @@ const FORMATION = [
 const FAQ = [
   { q:"Combien de temps dure généralement un projet ?", a:"Un site vitrine simple prend en général 1 à 2 semaines. Une application avec back-end (gestion de données, panier, tableau de bord) demande plutôt 3 à 5 semaines. Je vous donne une estimation précise après notre premier échange." },
   { q:"Travaillez-vous à partir d'une maquette Figma existante ?", a:"Oui, c'est même l'un de mes points forts : intégrer une maquette Figma avec précision, en gardant un code propre et un rendu fidèle sur tous les écrans." },
-  { q:"Qu'est-ce qui différencie votre approche ?", a:"Je pars toujours d'une structure HTML sémantique avant d'ajouter le style, puis le comportement, le résultat est plus léger, plus accessible et plus facile à faire évoluer." },
+  { q:"Qu'est-ce qui différencie votre approche ?", a:"Je pars toujours d'une structure HTML sémantique avant d'ajouter le style, puis le comportement, le résultat est plus léger, plus accessible et plus facile à faire évoluer. Je m'appuie aussi sur l'IA (vibe coding) pour prototyper plus vite, mais je relis et structure tout le code moi-même." },
   { q:"Proposez-vous un accompagnement après la livraison ?", a:"Oui, de petits ajustements et réponses à vos questions restent inclus après la mise en ligne. Pour un suivi plus long, on peut en discuter ensemble." },
   { q:"Comment se passe la communication pendant le projet ?", a:"Par email ou WhatsApp, avec des points d'étape réguliers pour que vous suiviez l'avancement sans surprise à la livraison." },
 ];
