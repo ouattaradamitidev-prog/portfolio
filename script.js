@@ -154,8 +154,8 @@ const SERVICES = [
 ];
 
 const EXPERIENCE = [
-  { date:"05/2026 — aujourd'hui", role:'Développeur Web Front-end, Stage', place:'ATG · en cours',
-    desc:"Développement des interfaces des applications de l'entreprise, en équipe, avec des contributions côté back-end (API, base de données)." },
+  { date:"06/2026 — 10/2026", role:'Développeur Web Front-end, Stage', place:'AIS (groupe ATG) · Abidjan',
+    desc:"Interfaces React de l'espace candidat de A²S² (certification des métiers du BTP) branchées sur une API Django REST, et interfaces multi-rôles d'une GED pour un cabinet de notaire, avec une contribution au back-end Django / PostgreSQL sous Docker." },
   { date:"2023 — aujourd'hui", role:'Développeur Web', place:'Projets académiques & personnels',
     desc:"Sites vitrines, boutiques en ligne et applications de gestion : front-end HTML/CSS/JS et React, back-end PHP / MySQL." },
 ];
