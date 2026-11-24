@@ -69,6 +69,11 @@
       "src": "./image/projects/steed-moto.jpeg",
       "href": "https://ouattaradamitidev-prog.github.io/site_moto/",
       "title": "STEED — Site moto"
+    },
+    {
+      "src": "./image/projects/RentalX.jpeg",
+      "href": "https://ouattaradamitidev-prog.github.io/RentalX/",
+      "title": "RentalX — Location de voitures"
     }
   ]
 }
