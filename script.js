@@ -131,13 +131,11 @@ const VISIT_MAIL_KEY = 'c477e384-482a-4348-aceb-d2968f6da2b4';
 const PROJECTS_FALLBACK = [
   { src:'./image/gestion-financiere.png', href:'https://gestion-finance.infinityfreeapp.com', title:'Gestion Financière', desc:"App complète avec tableau de bord admin, suivi des transactions, notifications temps réel et génération de reçus PDF.", tech:['PHP','MySQL','Tailwind','API REST'], year:'2026' },
   { src:'./image/MIEL.jpeg', href:'https://app-boutique-miel.netlify.app', title:'BON MIEL', desc:"Boutique apicole avec catalogue, panier dynamique et commandes envoyées directement sur WhatsApp, sans serveur.", tech:['HTML5','CSS3','JavaScript','LocalStorage'], year:'2024' },
-  { src:'./image/BOUFFE.jpeg', href:'https://damitielieericouattara-rgb.github.io/restaurant/', title:'Dabalie De Babi', desc:"Plateforme street food ivoirienne : catalogue, panier, suivi de commande. Front JS + back PHP / MySQL.", tech:['HTML5','JavaScript','PHP','MySQL'], year:'2024' },
+  { src:'./image/BOUFFE.jpeg', href:'https://ouattaradamitidev-prog.github.io/restaurant/', title:'Dabalie De Babi', desc:"Plateforme street food ivoirienne : catalogue, panier, suivi de commande. Front JS + back PHP / MySQL.", tech:['HTML5','JavaScript','PHP','MySQL'], year:'2024' },
   { src:'https://btp-site.netlify.app/assets/images/features-1.jpg', href:'https://btp-site.netlify.app', title:'Y BTP Immobilier', desc:"Site vitrine BTP complet : planning, architecture, construction et aménagement intérieur. Galerie de projets filtrée.", tech:['HTML5','CSS3','JavaScript'], year:'2025' },
 ];
 const PROJECTS_MORE_FALLBACK = [
   { src:'./image/novushaus.jpeg', href:'https://novushausci.vercel.app/', title:'NovusHaus — Mobilier' },
-  { src:'./image/tic-infinite-corridor.jpeg', href:'https://ouattaradamitidev-prog.github.io/PROJET_INFINIT_site/', title:'TIC — The Infinite Corridor' },
-  { src:'./image/restau-ci.jpeg', href:'https://restau-ci.vercel.app/', title:'Restau CI' },
   { src:'./image/vente-voiture-ci.jpeg', href:'https://ventevoitureci.vercel.app/', title:'Vente Voiture CI' },
   { src:'./image/immobilier.jpeg', href:'https://immobilier-site.netlify.app/', title:'Y Immobilier' },
   { src:'./image/salle-sport-ci.jpeg', href:'https://fitivoireci.vercel.app/', title:'Salle de Sport CI' },
